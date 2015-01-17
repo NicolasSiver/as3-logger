@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:fb="http://ns.adobe.com/flashbuilder/2009" alpha.disabled="0.5">
+	<fx:Metadata>
+		<![CDATA[ 
+			[HostComponent("spark.components.ToggleButton")]
+		]]>
+	</fx:Metadata>
+    <s:states>
+        <s:State name="up" />
+        <s:State name="over" stateGroups="overStates" />
+        <s:State name="down" stateGroups="downStates" />
+        <s:State name="disabled" stateGroups="disabledStates" />
+        <s:State name="upAndSelected" stateGroups="selectedStates, selectedUpStates" />
+        <s:State name="overAndSelected" stateGroups="overStates, selectedStates" />
+        <s:State name="downAndSelected" stateGroups="downStates, selectedStates" />
+        <s:State name="disabledAndSelected" stateGroups="selectedUpStates, disabledStates, selectedStates" />
+    </s:states>
+	<s:Rect id="border" left="0" right="0" top="0" bottom="1">
+		<s:fill>
+			<s:SolidColor color="#b2b2b2"/>
+		</s:fill>
+	</s:Rect>
+	<s:Rect id="fill" left="1" right="1" top="1" bottom="2">
+		<s:fill>
+			<s:SolidColor color="#e4e4e4" color.over="#ededed"/>
+		</s:fill>
+	</s:Rect>
+	<s:Rect id="highlight" left="1" right="1" top="1" height="1">
+		<s:fill>
+			<s:SolidColor color="#f8f8f8" color.over="#f8f8f8"/>
+		</s:fill>
+	</s:Rect>
+	<s:Rect id="shadow" left="1" right="1" bottom="0" height="1">
+		<s:fill>
+			<s:SolidColor color="#000000" alpha="0.2"/>
+		</s:fill>
+	</s:Rect>
+    <s:Rect id="hldownstroke1" left="1" right="1" top="1" bottom="0"
+            includeIn="downStates, selectedUpStates, overAndSelected">
+        <s:fill>
+            <s:SolidColor color="#009900" alpha="0.3"/>
+        </s:fill>
+    </s:Rect>
+	<s:Label id="labelDisplay" color="#333333" textAlign="center" verticalAlign="middle" maxDisplayedLines="1" left="0" right="0" bottom="0" horizontalCenter="0" verticalCenter="0">
+	</s:Label>
+</s:SparkSkin>
