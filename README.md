@@ -1,2 +1,2 @@
-# as3-logger
+# AS3 Logger
 Open source logger for Adobe Flash Platform.
