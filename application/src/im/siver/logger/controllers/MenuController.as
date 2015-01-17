@@ -30,11 +30,9 @@ package im.siver.logger.controllers {
         public static const CLEAR_TRACES:String = "cleartraces";
         public static const ALWAYS_ON_TOP:String = "alwaysontop";
 
-        public static const HELP_WINDOW:String = "helpwindow";
-        public static const DEBUGGER_GAME:String = "debuggerGame";
-        public static const ABOUT_MONSTERS:String = "aboutmonsters";
-        public static const PRODUCT_WEBSITE:String = "productwebsite";
-        public static const FEEDBACK:String = "feedback";
+        public static const ABOUT:String = "about";
+        public static const PRODUCT_WEBSITE:String = "productWebsite";
+        public static const ISSUE:String = "issue";
         public static const AS3_REFERENCE:String = "as3reference";
         public static const AS3_RUNTIME_ERRORS:String = "as3runtimeerrors";
         public static const RIA_GUIDE:String = "riaguide";
@@ -61,12 +59,11 @@ package im.siver.logger.controllers {
         private static var _previousTab:NativeMenuItem;
         private static var _clearTracesMenuItem:NativeMenuItem;
 
-        private static var _helpSubMenuItem:NativeMenuItem;
-        private static var _aboutMenuItem:NativeMenuItem;
         private static var _websiteMenuItem:NativeMenuItem;
-        private static var _feedbackMenuItem:NativeMenuItem;
-        private static var _documentationSubMenuItem:NativeMenuItem;
+        private static var _issueMenuItem:NativeMenuItem;
+        private static var _aboutMenuItem:NativeMenuItem;
 
+        private static var _documentationSubMenuItem:NativeMenuItem;
         private static var _as3RefMenuItem:NativeMenuItem;
         private static var _as3RunMenuItem:NativeMenuItem;
         private static var _riaGuideMenuItem:NativeMenuItem;
@@ -75,7 +72,7 @@ package im.siver.logger.controllers {
         private static var _onTopMenuItem:NativeMenuItem;
         private static var _saveMenuItem:NativeMenuItem;
         private static var _saveAsMenuItem:NativeMenuItem;
-        private static var _gameMenuItem:NativeMenuItem;
+
 
         // Dispatcher
         private static var _dispatcher:EventDispatcher = new EventDispatcher();
@@ -156,7 +153,7 @@ package im.siver.logger.controllers {
             nativeMenu.submenu.removeItemAt(0);
             var aboutMenu:NativeMenuItem = new NativeMenuItem("About Monster Debugger");
             aboutMenu.addEventListener(Event.SELECT, function (e:Event):void {
-                _dispatcher.dispatchEvent(new Event(ABOUT_MONSTERS));
+                _dispatcher.dispatchEvent(new Event(ABOUT));
             });
             nativeMenu.submenu.addItemAt(aboutMenu, 0);
 
@@ -299,22 +296,21 @@ package im.siver.logger.controllers {
         private static function createHelpMenu():NativeMenu {
             var menu:NativeMenu = new NativeMenu();
 
-            // Debugger Help
-            _helpSubMenuItem = new NativeMenuItem("Debugger Help");
-            _helpSubMenuItem.data = new Event(HELP_WINDOW, true);
-            _helpSubMenuItem.addEventListener(Event.SELECT, eventHandler);
-            menu.addItem(_helpSubMenuItem);
+            _websiteMenuItem = new NativeMenuItem("Product Website");
+            _websiteMenuItem.data = new Event(PRODUCT_WEBSITE, true);
+            _websiteMenuItem.addEventListener(Event.SELECT, eventHandler);
+            menu.addItem(_websiteMenuItem);
 
-            _gameMenuItem = new NativeMenuItem("Debugger Game");
-            _gameMenuItem.data = new Event(DEBUGGER_GAME, true);
-            _gameMenuItem.addEventListener(Event.SELECT, eventHandler);
-            menu.addItem(_gameMenuItem);
+            _issueMenuItem = new NativeMenuItem("Report Issue");
+            _issueMenuItem.data = new Event(ISSUE, true);
+            _issueMenuItem.addEventListener(Event.SELECT, eventHandler);
+            menu.addItem(_issueMenuItem);
 
             // Separator
             menu.addItem(new NativeMenuItem("", true));
 
             // Debugger Help
-            _documentationSubMenuItem = new NativeMenuItem("Online documentation");
+            _documentationSubMenuItem = new NativeMenuItem("Online Documentation");
             _documentationSubMenuItem.submenu = createDocumentationMenu();
             menu.addItem(_documentationSubMenuItem);
 
@@ -323,27 +319,17 @@ package im.siver.logger.controllers {
 
             if (Capabilities.os.substr(0, 3) != "Mac") {
                 _aboutMenuItem = new NativeMenuItem("About");
-                _aboutMenuItem.data = new Event(ABOUT_MONSTERS, true);
+                _aboutMenuItem.data = new Event(ABOUT, true);
                 _aboutMenuItem.addEventListener(Event.SELECT, eventHandler);
                 menu.addItem(_aboutMenuItem);
             }
-
-            _websiteMenuItem = new NativeMenuItem("Product Website");
-            _websiteMenuItem.data = new Event(PRODUCT_WEBSITE, true);
-            _websiteMenuItem.addEventListener(Event.SELECT, eventHandler);
-            menu.addItem(_websiteMenuItem);
-
-            _feedbackMenuItem = new NativeMenuItem("Feedback");
-            _feedbackMenuItem.data = new Event(FEEDBACK, true);
-            _feedbackMenuItem.addEventListener(Event.SELECT, eventHandler);
-            menu.addItem(_feedbackMenuItem);
 
             return menu;
         }
 
         private static function createMacWindowMenu():NativeMenu {
             var menu:NativeMenu = NativeApplication.nativeApplication.menu.getItemAt(4).submenu;
-            _onTopMenuItem = new NativeMenuItem("Always on top");
+            _onTopMenuItem = new NativeMenuItem("Always On Top");
             _onTopMenuItem.checked = false;
             _onTopMenuItem.data = new Event(ALWAYS_ON_TOP, true);
             _onTopMenuItem.addEventListener(Event.SELECT, toggleCheckedHandler);
@@ -353,7 +339,7 @@ package im.siver.logger.controllers {
 
         private static function createWindowMenu():NativeMenu {
             var menu:NativeMenu = new NativeMenu();
-            _onTopMenuItem = new NativeMenuItem("Always on top");
+            _onTopMenuItem = new NativeMenuItem("Always On Top");
             _onTopMenuItem.checked = false;
             _onTopMenuItem.data = new Event(ALWAYS_ON_TOP, true);
             _onTopMenuItem.addEventListener(Event.SELECT, toggleCheckedHandler);

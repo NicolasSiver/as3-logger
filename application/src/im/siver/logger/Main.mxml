@@ -28,7 +28,6 @@
         import im.siver.logger.utils.LoggerUtils;
         import im.siver.logger.views.components.plus.TabCloseable;
         import im.siver.logger.views.components.windows.AboutWindow;
-        import im.siver.logger.views.components.windows.HelpWindow;
 
         import mx.events.IndexChangedEvent;
         import mx.events.ListEvent;
@@ -36,7 +35,6 @@
         // Controllers and basic windows
         private var home:HomeController;
         private var tabs:Vector.<TabController> = new Vector.<TabController>();
-        private var helpWindow:HelpWindow;
         private var aboutWindow:AboutWindow;
 
         /**
@@ -67,13 +65,11 @@
             // Init the menu
             MenuController.initialize(nativeWindow);
             MenuController.addEventListener(MenuController.ALWAYS_ON_TOP, stayOnTop);
-            MenuController.addEventListener(MenuController.HELP_WINDOW, showHelp);
-            MenuController.addEventListener(MenuController.ABOUT_MONSTERS, showAbout);
+            MenuController.addEventListener(MenuController.ABOUT, showAbout);
             MenuController.addEventListener(MenuController.EXPORT_CLIENT_SWC, urlHandler);
             MenuController.addEventListener(MenuController.EXPORT_CLIENT_MOBILE_SWC, urlHandler);
-            MenuController.addEventListener(MenuController.DEBUGGER_GAME, urlHandler);
             MenuController.addEventListener(MenuController.PRODUCT_WEBSITE, urlHandler);
-            MenuController.addEventListener(MenuController.FEEDBACK, urlHandler);
+            MenuController.addEventListener(MenuController.ISSUE, urlHandler);
             MenuController.addEventListener(MenuController.AS3_REFERENCE, urlHandler);
             MenuController.addEventListener(MenuController.AS3_RUNTIME_ERRORS, urlHandler);
             MenuController.addEventListener(MenuController.RIA_GUIDE, urlHandler);
@@ -91,14 +87,6 @@
 
         private function stayOnTop(e:Event):void {
             alwaysInFront = !alwaysInFront;
-        }
-
-        private function showHelp(e:Event):void {
-            if (helpWindow == null || helpWindow.closed) {
-                helpWindow = new HelpWindow();
-            }
-            helpWindow.open();
-            helpWindow.activate();
         }
 
         private function showAbout(e:Event):void {
@@ -165,14 +153,11 @@
                     });
                     file2.browseForSave("Save MonsterDebugger.swc");
                     break;
-                case MenuController.DEBUGGER_GAME:
-                    navigateToURL(new URLRequest(Constants.URL_GAME));
-                    break;
                 case MenuController.PRODUCT_WEBSITE:
                     navigateToURL(new URLRequest(Constants.URL_SITE));
                     break;
-                case MenuController.FEEDBACK:
-                    navigateToURL(new URLRequest(Constants.URL_FEEDBACK));
+                case MenuController.ISSUE:
+                    navigateToURL(new URLRequest(Constants.URL_ISSUES));
                     break;
                 case MenuController.AS3_REFERENCE:
                     navigateToURL(new URLRequest(Constants.URL_AS3_REFERENCE));

@@ -101,7 +101,7 @@ package im.siver.logger.controllers
 					navigateToURL(new URLRequest(Constants.URL_TOUR));
 					break;
 				case _tab.buttonGame:
-					navigateToURL(new URLRequest(Constants.URL_GAME));
+					//navigateToURL(new URLRequest(Constants.URL_GAME));
 					break;
 				case _tab.buttonDocumentation:
 					navigateToURL(new URLRequest(Constants.URL_DOCUMENTATION));
@@ -110,7 +110,7 @@ package im.siver.logger.controllers
 					navigateToURL(new URLRequest(Constants.URL_SOURCE));
 					break;
 				case _tab.buttonBug:
-					navigateToURL(new URLRequest(Constants.URL_FEEDBACK));
+					navigateToURL(new URLRequest(Constants.URL_ISSUES));
 					break;
 				case _tab.buttonSiteDebugger:
 					navigateToURL(new URLRequest(Constants.URL_SITE));
