@@ -18,7 +18,7 @@ package im.siver.logger.services.socket
 	 * This is the new server
 	 * running on port 5840
 	 */
-	public class SocketServer1
+	public class SocketServer
 	{
 
 		// Properties

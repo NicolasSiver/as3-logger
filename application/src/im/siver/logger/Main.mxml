@@ -23,8 +23,7 @@
         import im.siver.logger.models.LoggerClient;
         import im.siver.logger.services.HistoryReader;
         import im.siver.logger.services.netgroup.NetgroupServer;
-        import im.siver.logger.services.socket.SocketServer1;
-        import im.siver.logger.services.socket.SocketServer2;
+        import im.siver.logger.services.socket.SocketServer;
         import im.siver.logger.utils.LoggerUtils;
         import im.siver.logger.views.components.plus.TabCloseable;
         import im.siver.logger.views.components.windows.AboutWindow;
@@ -42,10 +41,8 @@
          */
         private function onInit():void {
             // Start the servers
-            SocketServer1.initialize();
-            SocketServer1.onClientConnect = onClientConnect;
-            SocketServer2.initialize();
-            SocketServer2.onClientConnect = onClientConnect;
+            SocketServer.initialize();
+            SocketServer.onClientConnect = onClientConnect;
             NetgroupServer.initialize();
             NetgroupServer.onClientConnect = onClientConnect;
 
@@ -199,8 +196,7 @@
          */
         private function closeApplication(e:Event):void {
             LoggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.MainWindow");
-            SocketServer1.stop();
-            SocketServer2.stop();
+            SocketServer.stop();
             NetgroupServer.stop();
             var windows:Array = NativeApplication.nativeApplication.openedWindows;
             for (var i:int = 0; i < windows.length; i++) {
@@ -210,8 +206,7 @@
         }
 
         private function exitApplication(e:Event):void {
-            SocketServer1.stop();
-            SocketServer2.stop();
+            SocketServer.stop();
             NetgroupServer.stop();
             var windows:Array = NativeApplication.nativeApplication.openedWindows;
             for (var i:int = 0; i < windows.length; i++) {
