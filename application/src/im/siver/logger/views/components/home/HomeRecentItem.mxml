@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<s:Button xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" click="onClick()">
+	<fx:Script>
+		<![CDATA[
+        import im.siver.logger.views.skins.button.recentButtons.As3Button;
+        import im.siver.logger.views.skins.button.recentButtons.FlexButton;
+
+        import im.siver.logger.models.HistoryItem;
+
+        import flash.filesystem.File;
+
+        public var _item:HistoryItem;
+
+        public function setItem(item:HistoryItem):void {
+            _item = item;
+            label = _item.path + " - " + _item.name;
+            if (item.isFlex) {
+                setStyle("skinClass", im.siver.logger.views.skins.button.recentButtons.FlexButton);
+            } else {
+                setStyle("skinClass", im.siver.logger.views.skins.button.recentButtons.As3Button);
+            }
+        }
+
+        private function onClick():void {
+            if (_item.isWebsite) {
+                navigateToURL(new URLRequest(_item.path));
+            } else {
+                var file:File = File.desktopDirectory.resolvePath(_item.path);
+                file.openWithDefaultApplication();
+            }
+        }
+        ]]>
+	</fx:Script>
+</s:Button>
