@@ -12,7 +12,7 @@
         .data {
             backgroundAlpha: 1;
             backgroundColor: #FFFFFF;
-            alternatingItemColors: #F0F0F0, #FFFFFF;
+            alternatingItemColors: #F2F2F2, #FFFFFF;
             horizontalGridLines: false;
             letterSpacing: 0;
             horizontalGridLineColor: #B2B2B2;
@@ -43,12 +43,12 @@
                  headerBackgroundSkin="im.siver.logger.views.skins.datagrid.DatagridHeader"
                  headerSeparatorSkin="im.siver.logger.views.skins.datagrid.DatagridHeaderDivider" minHeight="0"
                  doubleClickEnabled="true" verticalScrollPolicy="auto" verticalScrollBarStyleName="customScrollBarStyle"
-                 headerHeight="21" rowHeight="23">
+                 headerHeight="24" rowHeight="24">
         <mx:columns>
             <mx:DataGridColumn headerText="#" dataField="line" width="40">
                 <mx:itemRenderer>
                     <fx:Component>
-                        <mx:Label text="{data['line']}" color="{data['color']}" paddingLeft="5" paddingRight="5"
+                        <mx:Label text="{data['line']}" paddingLeft="5" paddingRight="5"
                                   truncateToFit="true"/>
                     </fx:Component>
                 </mx:itemRenderer>
@@ -56,7 +56,7 @@
             <mx:DataGridColumn headerText="time" dataField="time" editable="false" width="100">
                 <mx:itemRenderer>
                     <fx:Component>
-                        <mx:Label text="{data['time']}" color="{data['color']}" paddingLeft="5" paddingRight="5"
+                        <mx:Label text="{data['time']}" paddingLeft="5" paddingRight="5"
                                   truncateToFit="true"/>
                     </fx:Component>
                 </mx:itemRenderer>
@@ -96,7 +96,7 @@
             <mx:DataGridColumn headerText="memory" dataField="memory" editable="false" width="90">
                 <mx:itemRenderer>
                     <fx:Component>
-                        <mx:Label text="{data['memory']}" color="{data['color']}" paddingLeft="5" paddingRight="5"
+                        <mx:Label text="{data['memory']}" paddingLeft="5" paddingRight="5"
                                   textAlign="right" truncateToFit="true"/>
                     </fx:Component>
                 </mx:itemRenderer>
