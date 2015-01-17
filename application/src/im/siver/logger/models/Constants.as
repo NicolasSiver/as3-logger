@@ -27,7 +27,7 @@ package im.siver.logger.models
 		public static const COMMAND_SET_PROPERTY:String = "SET_PROPERTY";
 		public static const COMMAND_CALL_METHOD:String = "CALL_METHOD";
 		public static const COMMAND_HIGHLIGHT:String = "HIGHLIGHT";
-		public static const COMMAND_START_HIGHLIGHT:String = "START_HIGHLIGHT";
+		public static const COMMAND_START_HIGHLIGHT:String = "START_HIGHLIGHT"; //FIXME Remove
 		public static const COMMAND_STOP_HIGHLIGHT:String = "STOP_HIGHLIGHT";
 		public static const COMMAND_CLEAR_TRACES:String = "CLEAR_TRACES";
 		public static const COMMAND_MONITOR:String = "MONITOR";

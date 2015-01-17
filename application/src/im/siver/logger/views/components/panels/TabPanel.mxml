@@ -8,7 +8,7 @@
         import im.siver.logger.views.skins.panel.PanelInside;
         import im.siver.logger.views.skins.panel.PanelInsideNonTab;
 
-        import spark.im.siver.logger.views.components.NavigatorContent;
+        import spark.components.NavigatorContent;
 
         [Bindable]
         public var showTabBar:Boolean = true;

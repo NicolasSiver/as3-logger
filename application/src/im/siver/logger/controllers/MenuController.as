@@ -27,13 +27,13 @@ package im.siver.logger.controllers
 		public static const EXPORT_CLIENT_MOBILE_SWC:String = "exportclientswc";
 	
 		public static const TOGGLE_TRACE_VIEW:String = "toggletraceview";
-		public static const TOGGLE_INSPECTOR:String = "toggleinspectorview";		
-		public static const TOGGLE_BREAKPOINT_VIEW:String = "togglebreakpointview"; 
+		public static const TOGGLE_INSPECTOR:String = "toggleinspectorview";	//FIXME remove
+		public static const TOGGLE_BREAKPOINT_VIEW:String = "togglebreakpointview";  //FIXME Remove
 		public static const TOGGLE_MEMORY_MONITOR_VIEW:String = "togglememorymonitorview";
 
 		public static const CLEAR_TRACES:String = "cleartraces";
 		public static const ALWAYS_ON_TOP:String = "alwaysontop";
-		public static const HIGHLIGHT_INSPECT:String = "highlightinspect";
+		public static const HIGHLIGHT_INSPECT:String = "highlightinspect"; //FIXME Remove
 		
 		public static const HELP_WINDOW:String = "helpwindow";
 		public static const DEBUGGER_GAME:String = "debuggerGame";
@@ -53,8 +53,8 @@ package im.siver.logger.controllers
 
 		// Menu
 		public static var toggleTraceViewMenuItem:NativeMenuItem;
-		public static var toggleLiveApplicationViewMenuItem:NativeMenuItem;
-		public static var toggleBreakpointsViewMenuItem:NativeMenuItem;
+		public static var toggleLiveApplicationViewMenuItem:NativeMenuItem; //FiXME remove
+		public static var toggleBreakpointsViewMenuItem:NativeMenuItem; //FIXME Remove
 		public static var toggleMonitorViewMenuItem:NativeMenuItem;
 
 		private static var _fileMenu:NativeMenuItem;
