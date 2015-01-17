@@ -25,7 +25,7 @@ package im.siver.logger.utils
 
 		/**
 		 * Converts HTML characters to regular characters
-		 * @param s: The string to convert
+		 * @param s The string to convert
 		 */
 		public static function htmlUnescape(s:String):String
 		{
@@ -111,7 +111,7 @@ package im.siver.logger.utils
 		
 		
 		/**
-		 * Allign to screen
+		 * Align to screen
 		 */
 		public static function saveWindowOptions(window:NativeWindow, id:String):void
 		{

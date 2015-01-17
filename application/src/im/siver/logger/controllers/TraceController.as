@@ -38,7 +38,7 @@ package im.siver.logger.controllers {
         }
 
         private function collectionDidChange(e:CollectionEvent):void {
-            if(_panel.autoScrollButton.selected){
+            if (_panel.autoScrollButton.selected) {
                 _panel.datagrid.validateNow();
                 _panel.datagrid.verticalScrollPosition = _panel.datagrid.maxVerticalScrollPosition;
             }
@@ -193,7 +193,7 @@ package im.siver.logger.controllers {
             var miliseconds:String;
             var time:String;
             var memory:String;
-            var obj:Object;
+            var traceItem:Object;
 
             switch (data["command"]) {
 
@@ -213,33 +213,39 @@ package im.siver.logger.controllers {
                     memory = Math.round(data["memory"] / 1024) + " Kb";
 
                     // Create the trace object
-                    obj = {};
+                    traceItem = {};
 
                     // Check the label
                     if (data["xml"]..node.length() > 1 && data["xml"]..node.length() <= 3) {
                         if (data["xml"].node[0].@type == Constants.TYPE_STRING || data["xml"].node[0].@type == Constants.TYPE_BOOLEAN || data["xml"].node[0].@type == Constants.TYPE_NUMBER || data["xml"].node[0].@type == Constants.TYPE_INT || data["xml"].node[0].@type == Constants.TYPE_UINT) {
-                            obj.message = LoggerUtils.stripBreaks(LoggerUtils.htmlUnescape(data["xml"].node.children()[0].@label));
+                            traceItem.message = LoggerUtils.stripBreaks(LoggerUtils.htmlUnescape(data["xml"].node.children()[0].@label));
                         } else {
-                            obj.message = LoggerUtils.stripBreaks(LoggerUtils.htmlUnescape(data["xml"].node.@label)) + " ...";
+                            traceItem.message = LoggerUtils.stripBreaks(LoggerUtils.htmlUnescape(data["xml"].node.@label)) + " ...";
                         }
                     } else {
-                        obj.message = LoggerUtils.stripBreaks(LoggerUtils.htmlUnescape(data["xml"].node.@label)) + " ...";
+                        traceItem.message = LoggerUtils.stripBreaks(LoggerUtils.htmlUnescape(data["xml"].node.@label)) + " ...";
+                    }
+
+                    // Clean target
+                    if (data['target'].indexOf('object') != -1) {
+                        traceItem.target = String(data['target']).replace('object ', '');
+                    }else{
+                        traceItem.target = data["target"];
                     }
 
                     // Add extra info
-                    obj.line = _data.length + 1;
-                    obj.time = time;
-                    obj.memory = memory;
-                    obj.reference = data["reference"];
-                    obj.target = data["target"];
-                    obj.label = data["label"];
-                    obj.person = data["person"];
-                    obj.color = data["color"];
-                    obj.xml = data["xml"];
+                    traceItem.line = _data.length + 1;
+                    traceItem.time = time;
+                    traceItem.memory = memory;
+                    traceItem.reference = data["reference"];
+                    traceItem.label = data["label"];
+                    traceItem.person = data["person"];
+                    traceItem.color = data["color"];
+                    traceItem.xml = data["xml"];
 
                     // Add to list
-                    _data.addItem(obj);
-                    addItem(obj);
+                    _data.addItem(traceItem);
+                    addItem(traceItem);
                     break;
 
                 case Constants.COMMAND_SNAPSHOT:
@@ -262,23 +268,23 @@ package im.siver.logger.controllers {
                     }
 
                     // Create the trace object
-                    obj = {};
-                    obj.line = _data.length + 1;
-                    obj.time = time;
-                    obj.memory = memory;
-                    obj.width = data["width"];
-                    obj.height = data["height"];
-                    obj.bitmapData = bitmapData;
-                    obj.message = "Snapshot";
-                    obj.target = data["target"];
-                    obj.label = data["label"];
-                    obj.person = data["person"];
-                    obj.color = data["color"];
-                    obj.xml = null;
+                    traceItem = {};
+                    traceItem.line = _data.length + 1;
+                    traceItem.time = time;
+                    traceItem.memory = memory;
+                    traceItem.width = data["width"];
+                    traceItem.height = data["height"];
+                    traceItem.bitmapData = bitmapData;
+                    traceItem.message = "Snapshot";
+                    traceItem.target = data["target"];
+                    traceItem.label = data["label"];
+                    traceItem.person = data["person"];
+                    traceItem.color = data["color"];
+                    traceItem.xml = null;
 
                     // Add to list
-                    _data.addItem(obj);
-                    addItem(obj);
+                    _data.addItem(traceItem);
+                    addItem(traceItem);
                     break;
             }
         }
