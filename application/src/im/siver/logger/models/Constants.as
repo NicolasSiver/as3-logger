@@ -78,13 +78,6 @@ package im.siver.logger.models {
         public static const URL_AS3_PLAYER:String = "http://www.adobe.com/support/flashplayer/downloads.html";
 
         public static const URL_ISSUES:String = "https://github.com/NicolasSiver/as3-logger/issues";
-        public static const URL_DEMONSTERS:String = "http://www.demonsters.com";
         public static const URL_SITE:String = "https://github.com/NicolasSiver/as3-logger";
-        public static const URL_TWITTER:String = "http://www.twitter.com/monsterdebugger";
-        public static const URL_DEMONSTERS_HIRE:String = "http://www.demonsters.com/contact";
-        public static const URL_TOUR:String = "http://www.monsterdebugger.com/tour";
-        public static const URL_DOCUMENTATION:String = "http://www.monsterdebugger.com/documentation";
-        public static const URL_SOURCE:String = "http://code.google.com/p/monsterdebugger";
-        public static const URL_FACEBOOK:String = "http://www.facebook.com/pages/De-Monsters/36958528369";
     }
 }

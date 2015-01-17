@@ -51,16 +51,6 @@ package im.siver.logger.controllers
 			_tab.buttonBack.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
 			_tab.buttonCopy.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
 			_tab.buttonExport.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
-			_tab.buttonTour.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
-			_tab.buttonGame.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
-			_tab.buttonDocumentation.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
-			_tab.buttonSources.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
-			_tab.buttonBug.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
-			_tab.buttonSiteDebugger.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
-			_tab.buttonSiteMonsters.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
-			_tab.buttonTwitter.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
-			_tab.buttonFacebook.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
-			_tab.buttonHire.addEventListener(MouseEvent.CLICK, clickHandler, false, 0, true);
 			_tab.dropdownTarget.addEventListener(IndexChangeEvent.CHANGE, selectedTarget, false, 0, true);
 			_tab.dropdownType.addEventListener(IndexChangeEvent.CHANGE, selectedType, false, 0, true);
 		}
@@ -96,36 +86,6 @@ package im.siver.logger.controllers
 						});
 						file.browseForSave("Save " + _exportFile.name);
 					}
-					break;
-				case _tab.buttonTour:
-					navigateToURL(new URLRequest(Constants.URL_TOUR));
-					break;
-				case _tab.buttonGame:
-					//navigateToURL(new URLRequest(Constants.URL_GAME));
-					break;
-				case _tab.buttonDocumentation:
-					navigateToURL(new URLRequest(Constants.URL_DOCUMENTATION));
-					break;
-				case _tab.buttonSources:
-					navigateToURL(new URLRequest(Constants.URL_SOURCE));
-					break;
-				case _tab.buttonBug:
-					navigateToURL(new URLRequest(Constants.URL_ISSUES));
-					break;
-				case _tab.buttonSiteDebugger:
-					navigateToURL(new URLRequest(Constants.URL_SITE));
-					break;
-				case _tab.buttonSiteMonsters:
-					navigateToURL(new URLRequest(Constants.URL_DEMONSTERS));
-					break;
-				case _tab.buttonTwitter:
-					navigateToURL(new URLRequest(Constants.URL_TWITTER));
-					break;
-				case _tab.buttonHire:
-					navigateToURL(new URLRequest(Constants.URL_DEMONSTERS_HIRE));
-					break;
-				case _tab.buttonFacebook:
-					navigateToURL(new URLRequest(Constants.URL_FACEBOOK));
 					break;
 			}
 		}

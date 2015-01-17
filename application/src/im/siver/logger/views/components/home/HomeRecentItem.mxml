@@ -1,13 +1,11 @@
 <?xml version="1.0"?>
-<s:Button xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" click="onClick()">
-	<fx:Script>
+<s:Button xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+          click="onClick()">
+    <fx:Script>
 		<![CDATA[
+        import im.siver.logger.models.HistoryItem;
         import im.siver.logger.views.skins.button.recentButtons.As3Button;
         import im.siver.logger.views.skins.button.recentButtons.FlexButton;
-
-        import im.siver.logger.models.HistoryItem;
-
-        import flash.filesystem.File;
 
         public var _item:HistoryItem;
 
@@ -15,9 +13,9 @@
             _item = item;
             label = _item.path + " - " + _item.name;
             if (item.isFlex) {
-                setStyle("skinClass", im.siver.logger.views.skins.button.recentButtons.FlexButton);
+                setStyle("skinClass", FlexButton);
             } else {
-                setStyle("skinClass", im.siver.logger.views.skins.button.recentButtons.As3Button);
+                setStyle("skinClass", As3Button);
             }
         }
 
