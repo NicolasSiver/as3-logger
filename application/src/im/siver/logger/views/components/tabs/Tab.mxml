@@ -83,7 +83,6 @@
 				</s:HGroup>
 				<tabs:TabPanel width="100%" height="40%" id="bottomPanel"/>
 			</mx:VDividedBox>
-			<ticker:Ticker width="100%" height="27"/>
 		</mx:VBox>
 	</mx:VBox>
 	<!--

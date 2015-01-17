@@ -64,7 +64,6 @@
 		</mx:Canvas>
 		<s:SkinnableContainer width="425" height="100%">
 			<s:BorderContainer backgroundColor="#F5F5F5" borderColor="#B2B2B2" borderStyle="solid" top="-1" left="-1" right="-1" bottom="-1">
- 				<ticker:HomeTicker y="240" x="40"/>
 				<mx:HBox height="170" verticalGap="0" horizontalGap="-1" top="35" left="-1" right="-1">
 					<mx:VBox width="214" height="100%" verticalGap="-2" horizontalGap="0">
 						<s:Button id="buttonTour" label="Take The Tour" skinClass="im.siver.logger.views.skins.button.iconButtons.TourButton" width="100%"/>

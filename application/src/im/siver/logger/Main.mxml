@@ -1,46 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" xmlns:components="im.siver.logger.views.components.*" xmlns:tabs="im.siver.logger.views.components.tabs.*" xmlns:monsters="com.demonsters.debugger.*" showStatusBar="false" usePreloader="false" chromeColor="#B2B2B2" contentBackgroundColor="#FFFFFF" initialize="onInit()">
-	<fx:Style>
-		@namespace s "library://ns.adobe.com/flex/spark";
-		@namespace mx "library://ns.adobe.com/flex/halo";
-		s|WindowedApplication {
-			fontSize: 11;
-		}
-		s|Window {
-			fontSize: 11;
-		}
-	</fx:Style>
-	<fx:Script>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+                       xmlns:tabs="im.siver.logger.views.components.tabs.*" showStatusBar="false" usePreloader="false"
+                       chromeColor="#B2B2B2" contentBackgroundColor="#FFFFFF" initialize="onInit()">
+    <fx:Style>
+        @namespace s "library://ns.adobe.com/flex/spark";
+        @namespace mx "library://ns.adobe.com/flex/halo";
+
+        s|WindowedApplication {
+            fontSize: 11;
+        }
+
+        s|Window {
+            fontSize: 11;
+        }
+    </fx:Style>
+    <fx:Script>
 		<![CDATA[
+        import im.siver.logger.controllers.HomeController;
+        import im.siver.logger.controllers.MenuController;
+        import im.siver.logger.controllers.TabController;
+        import im.siver.logger.models.Constants;
+        import im.siver.logger.models.LoggerClient;
+        import im.siver.logger.services.HistoryReader;
+        import im.siver.logger.services.netgroup.NetgroupServer;
+        import im.siver.logger.services.socket.SocketServer1;
+        import im.siver.logger.services.socket.SocketServer2;
+        import im.siver.logger.utils.LoggerUtils;
         import im.siver.logger.views.components.plus.TabCloseable;
         import im.siver.logger.views.components.windows.AboutWindow;
         import im.siver.logger.views.components.windows.HelpWindow;
 
-        import im.siver.logger.controllers.HomeController;
-
-        import im.siver.logger.controllers.TabController;
-
-        import im.siver.logger.models.LoggerClient;
-
-        import im.siver.logger.models.Constants;
-
-        import im.siver.logger.services.HistoryReader;
-
-        import im.siver.logger.controllers.MenuController;
-
-        import im.siver.logger.services.MonsterDebuggerUpdater;
-
-        import im.siver.logger.utils.LoggerUtils;
-
-        import im.siver.logger.services.netgroup.NetgroupServer;
-        import im.siver.logger.services.socket.SocketServer1;
-        import im.siver.logger.services.socket.SocketServer2;
-
         import mx.events.IndexChangedEvent;
         import mx.events.ListEvent;
-
-        import flash.desktop.NativeApplication;
-        import flash.filesystem.File;
 
         // Controllers and basic windows
         private var home:HomeController;
@@ -61,7 +52,8 @@
             NetgroupServer.onClientConnect = onClientConnect;
 
             // Check for update
-            MonsterDebuggerUpdater.check();
+            //FIXME Restore in release
+            //MonsterDebuggerUpdater.check();
 
             // Center window if the window is outside a screen
             LoggerUtils.loadWindowOptions(nativeWindow, "com.demonsters.debugger.MainWindow");
@@ -243,5 +235,5 @@
         }
         ]]>
 	</fx:Script>
-	<tabs:TabContainer id="container" x="0" y="0" width="100%" height="100%"/>
+    <tabs:TabContainer id="container" x="0" y="0" width="100%" height="100%"/>
 </s:WindowedApplication>

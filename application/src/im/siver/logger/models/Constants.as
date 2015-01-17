@@ -10,7 +10,6 @@ package im.siver.logger.models
 		
 		// Paths
 		public static const PATH_UPDATE:String = "http://www.monsterdebugger.com/xml/3/update.xml";
-		public static const PATH_TICKER:String = "http://www.monsterdebugger.com/xml/3/ticker.xml";
 		
 		
 		// Commands
