@@ -40,7 +40,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package com.demonsters.debugger
+package im.siver.logger.v1
 {
 	import flash.utils.ByteArray;
 
@@ -48,7 +48,7 @@ package com.demonsters.debugger
 	/**
 	 * The Monster Debugger shared data.
 	 */
-	public class MonsterDebuggerData
+	public class Data
 	{
 		
 		// Properties
@@ -61,7 +61,7 @@ package com.demonsters.debugger
 		 * @param id: The plugin id
 		 * @param data: The data to send over the socket connection
 		 */
-		public function MonsterDebuggerData(id:String, data:Object)
+		public function Data(id:String, data:Object)
 		{
 			// Save data
 			_id = id;
@@ -147,9 +147,9 @@ package com.demonsters.debugger
 		 * Convert raw bytes to a MonsterDebuggerData object.
 		 * @param bytes: The raw bytes to convert
 		 */
-		public static function read(bytes:ByteArray):MonsterDebuggerData
+		public static function read(bytes:ByteArray):Data
 		{
-			var item:MonsterDebuggerData = new MonsterDebuggerData(null, null);
+			var item:Data = new Data(null, null);
 			item.bytes = bytes;
 			return item;
 		}

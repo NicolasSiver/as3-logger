@@ -121,16 +121,16 @@ package im.siver.logger.controllers
 			if (_tab.dropdownType.selectedIndex != 2 && _tab.dropdownType.selectedIndex == 0) {
 				var exampleAS3:String = 'package {' + '\n';
 				exampleAS3 += '' + '\n';
-				exampleAS3 += '    import com.demonsters.debugger.MonsterDebugger;' + '\n';
+				exampleAS3 += '    import im.siver.logger.v1.Logger;' + '\n';
 				exampleAS3 += '    import flash.display.Sprite;' + '\n';
 				exampleAS3 += '    ' + '\n';
-				exampleAS3 += '    public class im.siver.logger.Main extends Sprite {' + '\n';
+				exampleAS3 += '    public class Main extends Sprite {' + '\n';
 				exampleAS3 += '    ' + '\n';
-				exampleAS3 += '        public function im.siver.logger.Main() {' + '\n';
+				exampleAS3 += '        public function main() {' + '\n';
 				exampleAS3 += '        ' + '\n';
-				exampleAS3 += '            // Start the MonsterDebugger' + '\n';
-				exampleAS3 += '            MonsterDebugger.initialize(this);' + '\n';
-				exampleAS3 += '            MonsterDebugger.trace(this, "Hello World!");' + '\n';
+				exampleAS3 += '            // Initiate AS3 Logger' + '\n';
+				exampleAS3 += '            Logger.initialize(this);' + '\n';
+				exampleAS3 += '            Logger.trace(this, "Hello World!");' + '\n';
 				exampleAS3 += '        }' + '\n';
 				exampleAS3 += '    }' + '\n';
 				exampleAS3 += '}';
@@ -140,7 +140,7 @@ package im.siver.logger.controllers
 			// MXML
 			if (_tab.dropdownType.selectedIndex != 2 && _tab.dropdownType.selectedIndex == 1) {
 				var exampleMXML:String = '<?xml version="1.0" encoding="utf-8"?>' + '\n';
-				exampleMXML += '<s:Application xmlns:fx="http://ns.adobe.com/mxml/2009"  xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx"  xmlns:debugger="com.demonsters.debugger.*" creationComplete="onCreationComplete()">' + '\n';
+				exampleMXML += '<s:Application xmlns:fx="http://ns.adobe.im/mxml/2009"  xmlns:s="library://ns.adobe.im/flex/spark" xmlns:mx="library://ns.adobe.im/flex/mx"  xmlns:logger="im.siver.logger.v1.*" creationComplete="onCreationComplete()">' + '\n';
 				exampleMXML += '    <fx:Script>' + '\n';
 				exampleMXML += '        <![CDATA[' + '\n';
 				exampleMXML += '            ' + '\n';
@@ -149,8 +149,8 @@ package im.siver.logger.controllers
 				exampleMXML += '            ' + '\n';
 				exampleMXML += '            private function onCreationComplete():void {' + '\n';
 				exampleMXML += '                ' + '\n';
-				exampleMXML += '                // Monster Debugger trace message' + '\n';
-				exampleMXML += '                monsterDebugger.trace(this, "Hello World!");' + '\n';
+				exampleMXML += '                // Trace message' + '\n';
+				exampleMXML += '                logger.trace(this, "Hello World!");' + '\n';
 				exampleMXML += '                ' + '\n';
 				exampleMXML += '                // Flex trace message' + '\n';
 				exampleMXML += '                var logger:ILogger = Log.getLogger("im.siver.logger.Main.mxml");' + '\n';
@@ -158,7 +158,7 @@ package im.siver.logger.controllers
 				exampleMXML += '            }' + '\n';
 				exampleMXML += '        ]]>' + '\n';
 				exampleMXML += '    </fx:Script>' + '\n';
-				exampleMXML += '    <debugger:MonsterDebuggerFlex id="monsterDebugger"/>' + '\n';
+				exampleMXML += '    <logger:Flex id="logger"/>' + '\n';
 				exampleMXML += '</s:Application>' + '\n';
 				_tab.codeField.text = exampleMXML;
 			}

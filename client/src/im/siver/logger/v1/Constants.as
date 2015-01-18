@@ -40,7 +40,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package com.demonsters.debugger
+package im.siver.logger.v1
 {
 
 
@@ -48,7 +48,7 @@ package com.demonsters.debugger
 	 * @private
 	 * The Monster Debugger constants.
 	 */
-	internal class MonsterDebuggerConstants
+	internal class Constants
 	{
 		
 		// Commands

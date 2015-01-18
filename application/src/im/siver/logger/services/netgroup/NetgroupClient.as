@@ -257,14 +257,14 @@ package im.siver.logger.services.netgroup
 		 */
 		private function processData(item:ClientData):void
 		{
-			// Return if the debugger is connected to another debugger
+			// Return if the logger is connected to another logger
 			if (_isAnotherDebugger) {
 				return;
 			}
 
 			if (item.data["command"] == Constants.COMMAND_HELLO) {
 				
-				// You are connected to another debugger client stupid!
+				// You are connected to another logger client stupid!
 				_isAnotherDebugger = true;
 				_group.removeEventListener(NetStatusEvent.NET_STATUS, onGroupUpdates);
 				_group = null;

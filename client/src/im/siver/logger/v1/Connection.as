@@ -40,44 +40,80 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package com.demonsters.debugger 
+package im.siver.logger.v1
 {
-	import flash.utils.describeType;
-	import flash.utils.getQualifiedClassName;
 
+    import im.siver.logger.*;
+	
 	
 	/**
 	 * @private
-	 * The Monster Debugger DescribeType. This Calls flash.utils.describeType() 
-	 * for the first time and caches the return value so that subsequent calls 
-	 * return faster.
+	 * The Monster Debugger connection
 	 */
-	internal class MonsterDebuggerDescribeType
+	internal class Connection
 	{
-
-		// Simple xml cache
-		private static var cache:Object = {};
+		
+		// Connector class
+		private static var connector:ConnectionBase;
 
 		
 		/**
-		 *  Calls flash.utils.describeType() for the first time and caches
-		 *  the return value so that subsequent calls return faster.
-		 *  @param object: The target object
+		 * Start the class
 		 */
-		internal static function get(object:*):XML
+		internal static function initialize():void
 		{
-			// Save the classname as key
-			var key:String = getQualifiedClassName(object);
+			/*FDT_IGNORE*/
+			CONFIG::Default { connector = new ConnectionDefault(); }
+			/*FDT_IGNORE*/
 			
-			// Check if we found the item in cache
-			if (key in cache) {
-				return cache[key];
-			}
-			
-			// Else save the item and return that
-			var xml:XML = describeType(object);
-			cache[key] = xml;
-			return xml;
+			/*FDT_IGNORE*/
+			CONFIG::Mobile { connector = new ConnectionMobile(); }
+			/*FDT_IGNORE*/
 		}
+		
+		
+		/**
+		 * @param value: The address to connect to
+		 */
+		internal static function set address(value:String):void {
+			connector.address = value;
+		}
+		
+		
+		/**
+		 * Get connected status.
+		 */
+		internal static function get connected():Boolean {
+			return connector.connected;
+		}
+		
+		
+		/**
+		 *  Start processing the queue.
+		 */
+		internal static function processQueue():void {
+			connector.processQueue();
+		}
+		
+		
+		/**
+		 * Send data to the desktop application.
+		 * @param id: The id of the plugin
+		 * @param data: The data to send
+		 * @param direct: Use the queue or send direct (handshake)
+		 */
+		internal static function send(id:String, data:Object, direct:Boolean = false):void {
+			connector.send(id, data, direct);
+		}
+		
+		
+		/**
+		 * Connect the socket.
+		 */
+		internal static function connect():void {
+			connector.connect();
+		}
+	
 	}
 }
+

@@ -40,21 +40,44 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-
-
-package com.demonsters.debugger
+package im.siver.logger.v1
 {
+	import flash.utils.describeType;
+	import flash.utils.getQualifiedClassName;
+
 	
 	/**
-	 * This interface is needed to separate default and mobile connectors
+	 * @private
+	 * The Monster Debugger DescribeType. This Calls flash.utils.describeType() 
+	 * for the first time and caches the return value so that subsequent calls 
+	 * return faster.
 	 */
-	internal interface IMonsterDebuggerConnection
+	internal class DescribeType
 	{
 
-		function set address(value:String):void;
-		function get connected():Boolean;
-		function processQueue():void;
-		function send(id:String, data:Object, direct:Boolean = false):void;
-		function connect():void;
+		// Simple xml cache
+		private static var cache:Object = {};
+
+		
+		/**
+		 *  Calls flash.utils.describeType() for the first time and caches
+		 *  the return value so that subsequent calls return faster.
+		 *  @param object: The target object
+		 */
+		internal static function get(object:*):XML
+		{
+			// Save the classname as key
+			var key:String = getQualifiedClassName(object);
+			
+			// Check if we found the item in cache
+			if (key in cache) {
+				return cache[key];
+			}
+			
+			// Else save the item and return that
+			var xml:XML = describeType(object);
+			cache[key] = xml;
+			return xml;
+		}
 	}
 }

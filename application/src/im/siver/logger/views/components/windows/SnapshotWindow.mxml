@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:Window xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="500" title="Monster Debugger - Snapshot" showStatusBar="false" creationComplete="onCreationComplete()" initialize="onInitialize()" menu="{xmlBasedMenu}">
-	<s:layout>
-		<s:BasicLayout/>
-	</s:layout>
-	<fx:Script>
+<s:Window xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+          xmlns:mx="library://ns.adobe.com/flex/mx" width="800" height="500" title="Monster Debugger - Snapshot"
+          showStatusBar="false" creationComplete="onCreationComplete()" initialize="onInitialize()"
+          menu="{xmlBasedMenu}">
+    <s:layout>
+        <s:BasicLayout/>
+    </s:layout>
+    <fx:Script>
 		<![CDATA[
         import im.siver.logger.controllers.MenuController;
-
+        import im.siver.logger.models.WindowIds;
         import im.siver.logger.utils.LoggerUtils;
 
         import mx.events.FlexNativeMenuEvent;
         import mx.graphics.codec.PNGEncoder;
-
-        import flash.filesystem.File;
 
         // The item to show
         private var _bitmapData:BitmapData;
@@ -46,7 +47,7 @@
                 stage.nativeWindow.addEventListener(Event.DEACTIVATE, onDeactivate);
             }
 
-            LoggerUtils.loadWindowOptions(nativeWindow, "com.demonsters.debugger.SnapshotWindow");
+            LoggerUtils.loadWindowOptions(nativeWindow, WindowIds.SNAPSHOT)
             visible = true;
 
             // Set on top
@@ -71,7 +72,7 @@
         }
 
         private function saveWindowOptions(e:Event):void {
-            LoggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.SnapshotWindow");
+            LoggerUtils.saveWindowOptions(nativeWindow, WindowIds.SNAPSHOT);
         }
 
         private function menuHandler(event:FlexNativeMenuEvent):void {
@@ -101,9 +102,9 @@
         }
         ]]>
 	</fx:Script>
-	<fx:Style>
-        @namespace s "library://ns.adobe.com/flex/spark";
-        @namespace mx "library://ns.adobe.com/flex/mx";
+    <fx:Style>
+        @namespace s "library://ns.adobe.im/flex/spark";
+        @namespace mx "library://ns.adobe.im/flex/mx";
         @namespace panels "im.siver.logger.views.components.panels.*";
 
         .customScrollBarStyle {
@@ -114,18 +115,20 @@
         }
 
     </fx:Style>
-	<fx:Declarations>
-		<fx:XML id="xmlMenuData" format="e4x">
-			<menubar>
-				<menu label="File">
-					<menuitem label="Save" ctrlKey="true" key="s"/>
-					<menuitem label="Close" ctrlKey="true" key="w"/>
-				</menu>
-			</menubar>
-		</fx:XML>
-		<mx:FlexNativeMenu id="xmlBasedMenu" showRoot="false" labelField="@label" keyEquivalentField="@key" dataProvider="{xmlMenuData}" itemClick="menuHandler(event)" menuShow="true"/>
-	</fx:Declarations>
-	<mx:Canvas top="0" left="0" right="0" bottom="0" verticalScrollPolicy="auto" horizontalScrollPolicy="auto" verticalScrollBarStyleName="customScrollBarStyle" horizontalScrollBarStyleName="customScrollBarStyle">
-		<mx:Canvas id="imageCanvas" width="0" height="0" visible="true"/>
-	</mx:Canvas>
+    <fx:Declarations>
+        <fx:XML id="xmlMenuData" format="e4x">
+            <menubar>
+                <menu label="File">
+                    <menuitem label="Save" ctrlKey="true" key="s"/>
+                    <menuitem label="Close" ctrlKey="true" key="w"/>
+                </menu>
+            </menubar>
+        </fx:XML>
+        <mx:FlexNativeMenu id="xmlBasedMenu" showRoot="false" labelField="@label" keyEquivalentField="@key"
+                           dataProvider="{xmlMenuData}" itemClick="menuHandler(event)" menuShow="true"/>
+    </fx:Declarations>
+    <mx:Canvas top="0" left="0" right="0" bottom="0" verticalScrollPolicy="auto" horizontalScrollPolicy="auto"
+               verticalScrollBarStyleName="customScrollBarStyle" horizontalScrollBarStyleName="customScrollBarStyle">
+        <mx:Canvas id="imageCanvas" width="0" height="0" visible="true"/>
+    </mx:Canvas>
 </s:Window>

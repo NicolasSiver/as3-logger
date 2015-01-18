@@ -40,7 +40,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package com.demonsters.debugger
+package im.siver.logger.v1
 {
 
 	import mx.core.UIComponent;
@@ -48,7 +48,7 @@ package com.demonsters.debugger
 	import flash.display.DisplayObject;
 
 
-	public class MonsterDebuggerFlex extends UIComponent
+	public class Flex extends UIComponent
 	{
 
 
@@ -57,7 +57,7 @@ package com.demonsters.debugger
 		 */
 		override public function initialize():void
 		{
-			MonsterDebugger.initialize(this.parent);
+			Logger.initialize(this.parent);
 			Log.addTarget(new MonsterDebuggerFlexTarget());
 		}
 
@@ -70,7 +70,7 @@ package com.demonsters.debugger
 		 */
 		public final function trace(caller:*, object:*, person:String = "", label:String = "", color:uint = 0x000000, depth:int = 5):void
 		{
-			MonsterDebugger.trace(caller, object, person, label, color, depth);
+			Logger.trace(caller, object, person, label, color, depth);
 		}
 
 
@@ -81,7 +81,7 @@ package com.demonsters.debugger
 		 */
 		public final function snapshot(caller:*, object:DisplayObject, person:String = "", label:String = ""):void
 		{
-			MonsterDebugger.snapshot(caller, object, person, label);
+			Logger.snapshot(caller, object, person, label);
 		}
 
 
@@ -94,7 +94,7 @@ package com.demonsters.debugger
 		 */
 		public final function breakpoint(caller:*, id:String = "breakpoint"):void
 		{
-			MonsterDebugger.breakpoint(caller, id);
+			Logger.breakpoint(caller, id);
 		}
 
 
@@ -107,7 +107,7 @@ package com.demonsters.debugger
 		 */
 		public final function inspect(object:*):void
 		{
-			MonsterDebugger.inspect(object);
+			Logger.inspect(object);
 		}
 
 
@@ -116,14 +116,14 @@ package com.demonsters.debugger
 		 */
 		public final function clear():void
 		{
-			MonsterDebugger.clear();
+			Logger.clear();
 		}
 	}
 }
 
 
 
-import com.demonsters.debugger.MonsterDebugger;
+import im.siver.logger.v1.Logger;
 import mx.logging.AbstractTarget;
 import mx.logging.ILogger;
 import mx.logging.LogEvent;
@@ -153,20 +153,20 @@ class MonsterDebuggerFlexTarget extends AbstractTarget
 		// Check the level to run
 		switch (event.level) {
 			case LogEventLevel.FATAL:
-				MonsterDebugger.trace(logger.category, event.message, "", "FATAL", 0xFF0000);
+				Logger.trace(logger.category, event.message, "", "FATAL", 0xFF0000);
 				break;
 			case LogEventLevel.ERROR:
-				MonsterDebugger.trace(logger.category, event.message, "", "ERROR", 0xFF0000);
+				Logger.trace(logger.category, event.message, "", "ERROR", 0xFF0000);
 				break;
 			case LogEventLevel.WARN:
-				MonsterDebugger.trace(logger.category, event.message, "", "WARN", 0xFF9A0D);
+				Logger.trace(logger.category, event.message, "", "WARN", 0xFF9A0D);
 				break;
 			case LogEventLevel.INFO:
-				MonsterDebugger.trace(logger.category, event.message, "", "INFO", 0x39B500);
+				Logger.trace(logger.category, event.message, "", "INFO", 0x39B500);
 				break;
 			case LogEventLevel.DEBUG:
 			case LogEventLevel.ALL:
-				MonsterDebugger.trace(logger.category, event.message, "", "DEBUG");
+				Logger.trace(logger.category, event.message, "", "DEBUG");
 				break;
 		}
 	}

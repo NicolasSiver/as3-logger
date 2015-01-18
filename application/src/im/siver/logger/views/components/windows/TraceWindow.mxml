@@ -9,6 +9,7 @@
 		<![CDATA[
         import im.siver.logger.controllers.MenuController;
         import im.siver.logger.models.Constants;
+        import im.siver.logger.models.WindowIds;
         import im.siver.logger.utils.LoggerUtils;
 
         import mx.collections.XMLListCollection;
@@ -106,7 +107,7 @@
         }
 
         private function onCreationComplete():void {
-            LoggerUtils.loadWindowOptions(nativeWindow, "com.demonsters.debugger.TraceWindow");
+            LoggerUtils.loadWindowOptions(nativeWindow, WindowIds.TRACE);
             visible = true;
 
             // Set on top
@@ -146,14 +147,14 @@
         }
 
         private function saveWindowOptions(e:Event):void {
-            LoggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.TraceWindow");
+            LoggerUtils.saveWindowOptions(nativeWindow, WindowIds.TRACE);
         }
         ]]>
 	</fx:Script>
     <fx:Style>
-        @namespace s "library://ns.adobe.com/flex/spark";
-        @namespace mx "library://ns.adobe.com/flex/mx";
-        @namespace panels "im.siver.logger.views.components.panels.*";
+        @namespace s 'library://ns.adobe.com/flex/spark';
+        @namespace mx 'library://ns.adobe.com/flex/mx';
+        @namespace panels "im.siver.logger.views.imponents.panels.*";
 
         .customScrollBarStyle {
             thumb-skin: ClassReference("im.siver.logger.views.skins.scrollbar.vertical.ScrollbarThumbSkin");

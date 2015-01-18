@@ -6,6 +6,7 @@
     <fx:Script>
 		<![CDATA[
         import im.siver.logger.controllers.MenuController;
+        import im.siver.logger.models.WindowIds;
         import im.siver.logger.utils.LoggerUtils;
 
         override protected function commitProperties():void {
@@ -20,7 +21,7 @@
         }
 
         private function onCreationComplete():void {
-            LoggerUtils.loadWindowOptions(nativeWindow, "com.demonsters.debugger.AboutWindow");
+            LoggerUtils.loadWindowOptions(nativeWindow, WindowIds.ABOUT);
             visible = true;
 
             // Set on top
@@ -40,12 +41,12 @@
         }
 
         private function saveWindowOptions(e:Event):void {
-            LoggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.AboutWindow");
+            LoggerUtils.saveWindowOptions(nativeWindow, WindowIds.ABOUT);
         }
         ]]>
 	</fx:Script>
 
-    <mx:Image source="@Embed('../../../../../../../assets/about.png')" />
+    <mx:Image source="@Embed('../../../../../../../assets/about.png')"/>
 
     <mx:Text width="320" top="20" left="20" fontSize="11" selectable="false">
         <mx:htmlText>

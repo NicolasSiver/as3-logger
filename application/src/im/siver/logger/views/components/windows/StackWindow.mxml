@@ -6,6 +6,7 @@
 	<fx:Script>
 		<![CDATA[
         import im.siver.logger.controllers.MenuController;
+        import im.siver.logger.models.WindowIds;
 
         import im.siver.logger.utils.LoggerUtils;
 
@@ -34,7 +35,7 @@
          * The application is ready
          */
         private function onCreationComplete():void {
-            LoggerUtils.loadWindowOptions(nativeWindow, "com.demonsters.debugger.StackWindow");
+            LoggerUtils.loadWindowOptions(nativeWindow, WindowIds.STACK);
             visible = true;
 
             // Set on top
@@ -54,7 +55,7 @@
         }
 
         private function saveWindowOptions(e:Event):void {
-            LoggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.StackWindow");
+            LoggerUtils.saveWindowOptions(nativeWindow, WindowIds.STACK);
         }
         ]]>
 	</fx:Script>

@@ -23,6 +23,7 @@
         import im.siver.logger.models.Constants;
         import im.siver.logger.models.Fonts;
         import im.siver.logger.models.LoggerClient;
+        import im.siver.logger.models.WindowIds;
         import im.siver.logger.services.HistoryReader;
         import im.siver.logger.services.netgroup.NetgroupServer;
         import im.siver.logger.services.socket.SocketServer;
@@ -55,7 +56,7 @@
             //MonsterDebuggerUpdater.check();
 
             // Center window if the window is outside a screen
-            LoggerUtils.loadWindowOptions(nativeWindow, "com.demonsters.debugger.MainWindow");
+            LoggerUtils.loadWindowOptions(nativeWindow, WindowIds.MAIN);
 
             // Load history (recent files)
             HistoryReader.load();
@@ -191,7 +192,7 @@
         private function windowStateHandler(event:NativeWindowDisplayStateEvent):void {
             // Save when we maximize
             if (event.afterDisplayState == NativeWindowDisplayState.MAXIMIZED) {
-                LoggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.MainWindow");
+                LoggerUtils.saveWindowOptions(nativeWindow, WindowIds.MAIN);
             }
         }
 
@@ -199,7 +200,7 @@
          * Application is closing
          */
         private function closeApplication(e:Event):void {
-            LoggerUtils.saveWindowOptions(nativeWindow, "com.demonsters.debugger.MainWindow");
+            LoggerUtils.saveWindowOptions(nativeWindow, WindowIds.MAIN);
             SocketServer.stop();
             NetgroupServer.stop();
             var windows:Array = NativeApplication.nativeApplication.openedWindows;

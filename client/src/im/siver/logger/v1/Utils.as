@@ -40,7 +40,7 @@
  * along with this program. If not, see <http://www.gnu.org/licenses/>.
  * 
  */
-package com.demonsters.debugger
+package im.siver.logger.v1
 {
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
@@ -58,7 +58,7 @@ package com.demonsters.debugger
 	 * @private
 	 * The Monster Debugger static utilities
 	 */
-	internal class MonsterDebuggerUtils
+	internal class Utils
 	{
 
 		// References
@@ -262,7 +262,7 @@ package com.demonsters.debugger
 					if (methodIndex == -1) methodIndex = bracketIndex;
 					
 					// Properties
-					var classname:String = MonsterDebuggerUtils.parseType(s.substring(0, methodIndex));
+					var classname:String = Utils.parseType(s.substring(0, methodIndex));
 					var method:String = "";
 					var file:String = "";
 					var line:String = "";
@@ -350,7 +350,7 @@ package com.demonsters.debugger
 			var object:* = base;
 			
 			// Split the path
-			var splitted:Array = target.split(MonsterDebuggerConstants.DELIMITER);
+			var splitted:Array = target.split(Constants.DELIMITER);
 			
 			// Loop through the array
 			for (var i:int = 0; i < splitted.length - parent; i++)
@@ -404,7 +404,7 @@ package com.demonsters.debugger
 			var base:String = "";
 			var isDynamic:Boolean = false;
 			var label:String = null;		
-			var icon:String = MonsterDebuggerConstants.ICON_ROOT;
+			var icon:String = Constants.ICON_ROOT;
 			
 			// Check if the max  depth is reached
 			if (maxDepth != -1 && currentDepth > maxDepth) {
@@ -416,12 +416,12 @@ package com.demonsters.debugger
 			{
 				type = "null";
 				label = "null";
-				icon = MonsterDebuggerConstants.ICON_WARNING;
+				icon = Constants.ICON_WARNING;
 			}
 			else
 			{
 				// Get the descriptor
-				description = MonsterDebuggerDescribeType.get(object);
+				description = DescribeType.get(object);
 				type = parseType(description.@name);
 				base = parseType(description.@base);
 				isDynamic = description.@isDynamic;
@@ -434,25 +434,25 @@ package com.demonsters.debugger
 					type = "Class";
 					childXML.appendChild(parseClass(object, target, description, currentDepth, maxDepth, includeDisplayObjects).children());
 				}
-				else if (type == MonsterDebuggerConstants.TYPE_XML)
+				else if (type == Constants.TYPE_XML)
 				{
 					childXML.appendChild(parseXML(object, target + ".children()", currentDepth, maxDepth).children());
 				}
-				else if (type == MonsterDebuggerConstants.TYPE_XMLLIST)
+				else if (type == Constants.TYPE_XMLLIST)
 				{
 					label = type + " [" + String(object.length()) + "]";
 					childXML.appendChild(parseXMLList(object, target, currentDepth, maxDepth).children());
 				}
-				else if (type == MonsterDebuggerConstants.TYPE_ARRAY || type.indexOf(MonsterDebuggerConstants.TYPE_VECTOR) == 0)
+				else if (type == Constants.TYPE_ARRAY || type.indexOf(Constants.TYPE_VECTOR) == 0)
 				{
 					label = type + " [" + String(object["length"]) + "]";
 					childXML.appendChild(parseArray(object, target, currentDepth, maxDepth).children());
 				}
-				else if (type == MonsterDebuggerConstants.TYPE_STRING || type == MonsterDebuggerConstants.TYPE_BOOLEAN || type == MonsterDebuggerConstants.TYPE_NUMBER || type == MonsterDebuggerConstants.TYPE_INT || type == MonsterDebuggerConstants.TYPE_UINT)
+				else if (type == Constants.TYPE_STRING || type == Constants.TYPE_BOOLEAN || type == Constants.TYPE_NUMBER || type == Constants.TYPE_INT || type == Constants.TYPE_UINT)
 				{
 					childXML.appendChild(parseBasics(object, target, type).children());
 				}
-				else if (type == MonsterDebuggerConstants.TYPE_OBJECT)
+				else if (type == Constants.TYPE_OBJECT)
 				{
 					childXML.appendChild(parseObject(object, target, currentDepth, maxDepth, includeDisplayObjects).children());
 				}
@@ -503,9 +503,9 @@ package com.demonsters.debugger
 			var nodeXML:XML = new XML("<node/>");
 
 			// Parse the basic type
-			nodeXML.@icon 			= MonsterDebuggerConstants.ICON_VARIABLE;
-			nodeXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-			nodeXML.@permission		= MonsterDebuggerConstants.PERMISSION_READWRITE;
+			nodeXML.@icon 			= Constants.ICON_VARIABLE;
+			nodeXML.@access 		= Constants.ACCESS_VARIABLE;
+			nodeXML.@permission		= Constants.PERMISSION_READWRITE;
 			nodeXML.@label 			= type + " = " + printValue(object, type, true); 
 			nodeXML.@name 			= "";
 			nodeXML.@type 			= type; 
@@ -555,17 +555,17 @@ package com.demonsters.debugger
 			for (i = 0; i < keys.length; i++)
 			{
 				// Save the type
-				childType = parseType(MonsterDebuggerDescribeType.get(object[keys[i]]).@name);
+				childType = parseType(DescribeType.get(object[keys[i]]).@name);
 				childTarget = target + "." + String(keys[i]);
 				
 				// Check if we can create a single string or a new node
-				if (childType == MonsterDebuggerConstants.TYPE_STRING || childType == MonsterDebuggerConstants.TYPE_BOOLEAN || childType == MonsterDebuggerConstants.TYPE_NUMBER || childType == MonsterDebuggerConstants.TYPE_INT || childType == MonsterDebuggerConstants.TYPE_UINT || childType == MonsterDebuggerConstants.TYPE_FUNCTION)
+				if (childType == Constants.TYPE_STRING || childType == Constants.TYPE_BOOLEAN || childType == Constants.TYPE_NUMBER || childType == Constants.TYPE_INT || childType == Constants.TYPE_UINT || childType == Constants.TYPE_FUNCTION)
 				{
 					// Parse the basic type
 					childXML = new XML("<node/>");
-					childXML.@icon 			= MonsterDebuggerConstants.ICON_VARIABLE;
-					childXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-					childXML.@permission 	= MonsterDebuggerConstants.PERMISSION_READWRITE;
+					childXML.@icon 			= Constants.ICON_VARIABLE;
+					childXML.@access 		= Constants.ACCESS_VARIABLE;
+					childXML.@permission 	= Constants.PERMISSION_READWRITE;
 					childXML.@label 		= "[" + keys[i] + "] (" + childType + ") = " + printValue(object[keys[i]], childType, true); 
 					childXML.@name 			= "[" + keys[i] + "]";
 					childXML.@type 			= childType; 
@@ -577,9 +577,9 @@ package com.demonsters.debugger
 				{
 					// Parse the array
 					childXML = new XML("<node/>");
-					childXML.@icon 			= MonsterDebuggerConstants.ICON_VARIABLE;
-					childXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-					childXML.@permission 	= MonsterDebuggerConstants.PERMISSION_READWRITE;
+					childXML.@icon 			= Constants.ICON_VARIABLE;
+					childXML.@access 		= Constants.ACCESS_VARIABLE;
+					childXML.@permission 	= Constants.PERMISSION_READWRITE;
 					childXML.@label 		= "[" + keys[i] + "] (" + childType + ")"; 
 					childXML.@name 			= "[" + keys[i] + "]";
 					childXML.@type 			= childType; 
@@ -588,7 +588,7 @@ package com.demonsters.debugger
 					
 					// Check for null object
 					if (object[keys[i]] == null) {
-						childXML.@icon = MonsterDebuggerConstants.ICON_WARNING;
+						childXML.@icon = Constants.ICON_WARNING;
 						childXML.@label += " = null";
 					}
 					
@@ -630,10 +630,10 @@ package com.demonsters.debugger
 			{
 				// Display a single attribute
 				nodeXML = new XML("<node/>");
-				nodeXML.@icon			= MonsterDebuggerConstants.ICON_XMLATTRIBUTE;
-				nodeXML.@type 			= MonsterDebuggerConstants.TYPE_XMLATTRIBUTE;
-				nodeXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-				nodeXML.@permission 	= MonsterDebuggerConstants.PERMISSION_READWRITE;
+				nodeXML.@icon			= Constants.ICON_XMLATTRIBUTE;
+				nodeXML.@type 			= Constants.TYPE_XMLATTRIBUTE;
+				nodeXML.@access 		= Constants.ACCESS_VARIABLE;
+				nodeXML.@permission 	= Constants.PERMISSION_READWRITE;
 				nodeXML.@label 			= xml;
 				nodeXML.@name 			= "";
 				nodeXML.@value 			= xml;
@@ -644,13 +644,13 @@ package com.demonsters.debugger
 			{
 				// Only a text value
 				nodeXML = new XML("<node/>");
-				nodeXML.@icon 			= MonsterDebuggerConstants.ICON_XMLVALUE;
-				nodeXML.@type 			= MonsterDebuggerConstants.TYPE_XMLVALUE;
-				nodeXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-				nodeXML.@permission 	= MonsterDebuggerConstants.PERMISSION_READWRITE;
-				nodeXML.@label 			= "(" + MonsterDebuggerConstants.TYPE_XMLVALUE + ") = " + printValue(xml, MonsterDebuggerConstants.TYPE_XMLVALUE, true);
+				nodeXML.@icon 			= Constants.ICON_XMLVALUE;
+				nodeXML.@type 			= Constants.TYPE_XMLVALUE;
+				nodeXML.@access 		= Constants.ACCESS_VARIABLE;
+				nodeXML.@permission 	= Constants.PERMISSION_READWRITE;
+				nodeXML.@label 			= "(" + Constants.TYPE_XMLVALUE + ") = " + printValue(xml, Constants.TYPE_XMLVALUE, true);
 				nodeXML.@name 			= "";
-				nodeXML.@value 			= printValue(xml, MonsterDebuggerConstants.TYPE_XMLVALUE);
+				nodeXML.@value 			= printValue(xml, Constants.TYPE_XMLVALUE);
 				nodeXML.@target 		= target;
 				rootXML.appendChild(nodeXML);
 			}
@@ -658,11 +658,11 @@ package com.demonsters.debugger
 			{
 				// Node with one text value and possible attributes
 				nodeXML = new XML("<node/>");
-				nodeXML.@icon 			= MonsterDebuggerConstants.ICON_XMLNODE;
-				nodeXML.@type 			= MonsterDebuggerConstants.TYPE_XMLNODE;
-				nodeXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-				nodeXML.@permission 	= MonsterDebuggerConstants.PERMISSION_READWRITE;
-				nodeXML.@label 			= xml.name() + " (" + MonsterDebuggerConstants.TYPE_XMLNODE + ")";
+				nodeXML.@icon 			= Constants.ICON_XMLNODE;
+				nodeXML.@type 			= Constants.TYPE_XMLNODE;
+				nodeXML.@access 		= Constants.ACCESS_VARIABLE;
+				nodeXML.@permission 	= Constants.PERMISSION_READWRITE;
+				nodeXML.@label 			= xml.name() + " (" + Constants.TYPE_XMLNODE + ")";
 				nodeXML.@name 			= xml.name();
 				nodeXML.@value 			= "";
 				nodeXML.@target 		= target;
@@ -670,13 +670,13 @@ package com.demonsters.debugger
 				// Only a text value
 				if (xml != "") {
 					childXML = new XML("<node/>");
-					childXML.@icon 			= MonsterDebuggerConstants.ICON_XMLVALUE;
-					childXML.@type 			= MonsterDebuggerConstants.TYPE_XMLVALUE;
-					childXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-					childXML.@permission 	= MonsterDebuggerConstants.PERMISSION_READWRITE;
-					childXML.@label 		= "(" + MonsterDebuggerConstants.TYPE_XMLVALUE + ") = " + printValue(xml, MonsterDebuggerConstants.TYPE_XMLVALUE);
+					childXML.@icon 			= Constants.ICON_XMLVALUE;
+					childXML.@type 			= Constants.TYPE_XMLVALUE;
+					childXML.@access 		= Constants.ACCESS_VARIABLE;
+					childXML.@permission 	= Constants.PERMISSION_READWRITE;
+					childXML.@label 		= "(" + Constants.TYPE_XMLVALUE + ") = " + printValue(xml, Constants.TYPE_XMLVALUE);
 					childXML.@name 			= "";
-					childXML.@value 		= printValue(xml, MonsterDebuggerConstants.TYPE_XMLVALUE);
+					childXML.@value 		= printValue(xml, Constants.TYPE_XMLVALUE);
 					childXML.@target 		= target;
 					nodeXML.appendChild(childXML);
 				}
@@ -685,11 +685,11 @@ package com.demonsters.debugger
 				for (i = 0; i < xml.attributes().length(); i++)
 				{
 					childXML = new XML("<node/>");
-					childXML.@icon 			= MonsterDebuggerConstants.ICON_XMLATTRIBUTE;
-					childXML.@type 			= MonsterDebuggerConstants.TYPE_XMLATTRIBUTE;
-					childXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-					childXML.@permission 	= MonsterDebuggerConstants.PERMISSION_READWRITE;
-					childXML.@label 		= "@" + xml.attributes()[i].name() + " (" + MonsterDebuggerConstants.TYPE_XMLATTRIBUTE + ") = " + xml.attributes()[i];
+					childXML.@icon 			= Constants.ICON_XMLATTRIBUTE;
+					childXML.@type 			= Constants.TYPE_XMLATTRIBUTE;
+					childXML.@access 		= Constants.ACCESS_VARIABLE;
+					childXML.@permission 	= Constants.PERMISSION_READWRITE;
+					childXML.@label 		= "@" + xml.attributes()[i].name() + " (" + Constants.TYPE_XMLATTRIBUTE + ") = " + xml.attributes()[i];
 					childXML.@name 			= "";
 					childXML.@value 		= xml.attributes()[i];					
 					childXML.@target 		= target + "." + "@" + xml.attributes()[i].name();
@@ -704,11 +704,11 @@ package com.demonsters.debugger
 				// Node with children and attributes
 				// This node has no value due to the children
 				nodeXML = new XML("<node/>");
-				nodeXML.@icon 			= MonsterDebuggerConstants.ICON_XMLNODE;
-				nodeXML.@type 			= MonsterDebuggerConstants.TYPE_XMLNODE;
-				nodeXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-				nodeXML.@permission 	= MonsterDebuggerConstants.PERMISSION_READWRITE;
-				nodeXML.@label 			= xml.name() + " (" + MonsterDebuggerConstants.TYPE_XMLNODE + ")";
+				nodeXML.@icon 			= Constants.ICON_XMLNODE;
+				nodeXML.@type 			= Constants.TYPE_XMLNODE;
+				nodeXML.@access 		= Constants.ACCESS_VARIABLE;
+				nodeXML.@permission 	= Constants.PERMISSION_READWRITE;
+				nodeXML.@label 			= xml.name() + " (" + Constants.TYPE_XMLNODE + ")";
 				nodeXML.@name 			= xml.name();
 				nodeXML.@value 			= "";
 				nodeXML.@target 		= target;
@@ -717,11 +717,11 @@ package com.demonsters.debugger
 				for (i = 0; i < xml.attributes().length(); i++)
 				{
 					childXML = new XML("<node/>");
-					childXML.@icon 			= MonsterDebuggerConstants.ICON_XMLATTRIBUTE;
-					childXML.@type 			= MonsterDebuggerConstants.TYPE_XMLATTRIBUTE;
-					childXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-					childXML.@permission 	= MonsterDebuggerConstants.PERMISSION_READWRITE;
-					childXML.@label 		= "@" + xml.attributes()[i].name() + " (" + MonsterDebuggerConstants.TYPE_XMLATTRIBUTE + ") = " + xml.attributes()[i];
+					childXML.@icon 			= Constants.ICON_XMLATTRIBUTE;
+					childXML.@type 			= Constants.TYPE_XMLATTRIBUTE;
+					childXML.@access 		= Constants.ACCESS_VARIABLE;
+					childXML.@permission 	= Constants.PERMISSION_READWRITE;
+					childXML.@label 		= "@" + xml.attributes()[i].name() + " (" + Constants.TYPE_XMLATTRIBUTE + ") = " + xml.attributes()[i];
 					childXML.@name 			= "";
 					childXML.@value 		= xml.attributes()[i];
 					childXML.@target 		= target + "." + "@" + xml.attributes()[i].name();
@@ -806,17 +806,17 @@ package com.demonsters.debugger
 			// Loop through the array
 			for (i = 0; i < properties.length; i++)
 			{
-				childType = parseType(MonsterDebuggerDescribeType.get(object[properties[i]]).@name);
+				childType = parseType(DescribeType.get(object[properties[i]]).@name);
 				childTarget = target + "." + properties[i];
 				
 				// Check if we can create a single string or a new node
-				if (childType == MonsterDebuggerConstants.TYPE_STRING || childType == MonsterDebuggerConstants.TYPE_BOOLEAN || childType == MonsterDebuggerConstants.TYPE_NUMBER || childType == MonsterDebuggerConstants.TYPE_INT || childType == MonsterDebuggerConstants.TYPE_UINT || childType == MonsterDebuggerConstants.TYPE_FUNCTION)
+				if (childType == Constants.TYPE_STRING || childType == Constants.TYPE_BOOLEAN || childType == Constants.TYPE_NUMBER || childType == Constants.TYPE_INT || childType == Constants.TYPE_UINT || childType == Constants.TYPE_FUNCTION)
 				{
 					// Parse the basic type
 					childXML = new XML("<node/>");
-					childXML.@icon 			= MonsterDebuggerConstants.ICON_VARIABLE;
-					childXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-					childXML.@permission 	= MonsterDebuggerConstants.PERMISSION_READWRITE;
+					childXML.@icon 			= Constants.ICON_VARIABLE;
+					childXML.@access 		= Constants.ACCESS_VARIABLE;
+					childXML.@permission 	= Constants.PERMISSION_READWRITE;
 					childXML.@label 		= properties[i] + " (" + childType + ") = " + printValue(object[properties[i]], childType, true); 
 					childXML.@name 			= properties[i];
 					childXML.@type 			= childType; 
@@ -828,9 +828,9 @@ package com.demonsters.debugger
 				{
 					// Parse the object
 					childXML = new XML("<node/>");
-					childXML.@icon 			= MonsterDebuggerConstants.ICON_VARIABLE;
-					childXML.@access 		= MonsterDebuggerConstants.ACCESS_VARIABLE;
-					childXML.@permission 	= MonsterDebuggerConstants.PERMISSION_READWRITE;
+					childXML.@icon 			= Constants.ICON_VARIABLE;
+					childXML.@access 		= Constants.ACCESS_VARIABLE;
+					childXML.@permission 	= Constants.PERMISSION_READWRITE;
 					childXML.@label 		= properties[i] + " (" + childType + ")"; 
 					childXML.@name 			= properties[i];
 					childXML.@type 			= childType; 
@@ -839,7 +839,7 @@ package com.demonsters.debugger
 					
 					// Check for null object
 					if (object[properties[i]] == null) {
-						childXML.@icon = MonsterDebuggerConstants.ICON_WARNING;
+						childXML.@icon = Constants.ICON_WARNING;
 						childXML.@label += " = null";
 					}
 					
@@ -904,9 +904,9 @@ package com.demonsters.debugger
 						itemName = key;
 						itemType = parseType(getQualifiedClassName(object[key]));
 						itemTarget = target + "." + key;
-						itemAccess = MonsterDebuggerConstants.ACCESS_VARIABLE;
-						itemPermission = MonsterDebuggerConstants.PERMISSION_READWRITE;
-						itemIcon = MonsterDebuggerConstants.ICON_VARIABLE;
+						itemAccess = Constants.ACCESS_VARIABLE;
+						itemPermission = Constants.PERMISSION_READWRITE;
+						itemIcon = Constants.ICON_VARIABLE;
 						itemsArray[itemsArray.length] = {
 							name:			itemName,
 							type:			itemType,
@@ -930,9 +930,9 @@ package com.demonsters.debugger
 					itemType = parseType(variables[i].@type);
 					
 					itemTarget = target + "." + key;
-					itemAccess = MonsterDebuggerConstants.ACCESS_VARIABLE;
-					itemPermission = MonsterDebuggerConstants.PERMISSION_READWRITE;
-					itemIcon = MonsterDebuggerConstants.ICON_VARIABLE;
+					itemAccess = Constants.ACCESS_VARIABLE;
+					itemPermission = Constants.PERMISSION_READWRITE;
+					itemIcon = Constants.ICON_VARIABLE;
 					itemsArray[itemsArray.length] = {
 						name:			itemName,
 						type:			itemType,
@@ -952,16 +952,16 @@ package com.demonsters.debugger
 					itemName = key;
 					itemType = parseType(accessors[i].@type);
 					itemTarget = target + "." + key;
-					itemAccess = MonsterDebuggerConstants.ACCESS_ACCESSOR;
-					itemPermission = MonsterDebuggerConstants.PERMISSION_READWRITE;
-					itemIcon = MonsterDebuggerConstants.ICON_VARIABLE;
-					if (accessors[i].@access == MonsterDebuggerConstants.PERMISSION_READONLY) {
-						itemPermission = MonsterDebuggerConstants.PERMISSION_READONLY;
-						itemIcon = MonsterDebuggerConstants.ICON_VARIABLE_READONLY;
+					itemAccess = Constants.ACCESS_ACCESSOR;
+					itemPermission = Constants.PERMISSION_READWRITE;
+					itemIcon = Constants.ICON_VARIABLE;
+					if (accessors[i].@access == Constants.PERMISSION_READONLY) {
+						itemPermission = Constants.PERMISSION_READONLY;
+						itemIcon = Constants.ICON_VARIABLE_READONLY;
 					}
-					if (accessors[i].@access == MonsterDebuggerConstants.PERMISSION_WRITEONLY) {
-						itemPermission = MonsterDebuggerConstants.PERMISSION_WRITEONLY;
-						itemIcon = MonsterDebuggerConstants.ICON_VARIABLE_WRITEONLY;
+					if (accessors[i].@access == Constants.PERMISSION_WRITEONLY) {
+						itemPermission = Constants.PERMISSION_WRITEONLY;
+						itemIcon = Constants.ICON_VARIABLE_WRITEONLY;
 					}
 					itemsArray[itemsArray.length] = {
 						name:			itemName,
@@ -982,9 +982,9 @@ package com.demonsters.debugger
 					itemName = key;
 					itemType = parseType(constants[i].@type);
 					itemTarget = target + "." + key;
-					itemAccess = MonsterDebuggerConstants.ACCESS_CONSTANT;
-					itemPermission = MonsterDebuggerConstants.PERMISSION_READONLY;
-					itemIcon = MonsterDebuggerConstants.ICON_VARIABLE_READONLY;
+					itemAccess = Constants.ACCESS_CONSTANT;
+					itemPermission = Constants.PERMISSION_READONLY;
+					itemIcon = Constants.ICON_VARIABLE_READONLY;
 					itemsArray[itemsArray.length] = {
 						name:			itemName,
 						type:			itemType,
@@ -1012,16 +1012,16 @@ package com.demonsters.debugger
 						//
 					}
 					if (child != null) {
-						itemXML = MonsterDebuggerDescribeType.get(child);
+						itemXML = DescribeType.get(child);
 						itemType = parseType(itemXML.@name);
 						itemName = "DisplayObject";
 						if (child.name != null) {
 							itemName += " - " + child.name;
 						}
 						itemTarget = target + "." + "getChildAt(" + i + ")";
-						itemAccess = MonsterDebuggerConstants.ACCESS_DISPLAY_OBJECT;
-						itemPermission = MonsterDebuggerConstants.PERMISSION_READWRITE;
-						itemIcon = child is DisplayObjectContainer ? MonsterDebuggerConstants.ICON_ROOT : MonsterDebuggerConstants.ICON_DISPLAY_OBJECT;
+						itemAccess = Constants.ACCESS_DISPLAY_OBJECT;
+						itemPermission = Constants.PERMISSION_READWRITE;
+						itemIcon = child is DisplayObjectContainer ? Constants.ICON_ROOT : Constants.ICON_DISPLAY_OBJECT;
 						displayObjects[displayObjects.length] = {
 							name:			itemName,
 							type:			itemType,
@@ -1054,13 +1054,13 @@ package com.demonsters.debugger
 				itemIcon = itemsArray[i].icon;
 
 				// Don't include write only items (gives an error)
-				if (itemPermission == MonsterDebuggerConstants.PERMISSION_WRITEONLY) {
+				if (itemPermission == Constants.PERMISSION_WRITEONLY) {
 					continue;
 				}
 				
 				// Get the child or property
 				try {
-					if (itemAccess == MonsterDebuggerConstants.ACCESS_DISPLAY_OBJECT) {
+					if (itemAccess == Constants.ACCESS_DISPLAY_OBJECT) {
 						item = DisplayObjectContainer(object).getChildAt(itemsArray[i].index);
 					} else {
 						item = object[itemName];
@@ -1070,7 +1070,7 @@ package com.demonsters.debugger
 				}
 
 				// Check if we can create a single string or a new node
-				if (itemType == MonsterDebuggerConstants.TYPE_STRING || itemType == MonsterDebuggerConstants.TYPE_BOOLEAN || itemType == MonsterDebuggerConstants.TYPE_NUMBER || itemType == MonsterDebuggerConstants.TYPE_INT || itemType == MonsterDebuggerConstants.TYPE_UINT || itemType == MonsterDebuggerConstants.TYPE_FUNCTION)
+				if (itemType == Constants.TYPE_STRING || itemType == Constants.TYPE_BOOLEAN || itemType == Constants.TYPE_NUMBER || itemType == Constants.TYPE_INT || itemType == Constants.TYPE_UINT || itemType == Constants.TYPE_FUNCTION)
 				{
 					// Parse the text
 					nodeXML = new XML("<node/>");
@@ -1097,7 +1097,7 @@ package com.demonsters.debugger
 					
 					// Check for null object
 					if (item == null) {
-						nodeXML.@icon = MonsterDebuggerConstants.ICON_WARNING;
+						nodeXML.@icon = Constants.ICON_WARNING;
 						nodeXML.@label += " = null";
 					}
 					
@@ -1125,7 +1125,7 @@ package com.demonsters.debugger
 			var rootXML:XML = new XML("<root/>");
 			
 			// Get the descriptor
-			var description:XML = MonsterDebuggerDescribeType.get(object);
+			var description:XML = DescribeType.get(object);
 			var type:String = parseType(description.@name);
 			var itemXML:XML;
 			var itemType:String = "";
@@ -1147,7 +1147,7 @@ package com.demonsters.debugger
 			
 			// Create the head node
 			itemXML = new XML("<node/>");
-			itemXML.@icon = MonsterDebuggerConstants.ICON_DEFAULT;
+			itemXML.@icon = Constants.ICON_DEFAULT;
 			itemXML.@label = "(" + type + ")";
 			itemXML.@target = target;
 
@@ -1161,7 +1161,7 @@ package com.demonsters.debugger
 						methodsArr[methodsArr.length] = {
 							name:		key,
 							xml:		methods[i],
-							access:		MonsterDebuggerConstants.ACCESS_METHOD
+							access:		Constants.ACCESS_METHOD
 						};
 					}
 				} catch (e:Error) {
@@ -1179,9 +1179,9 @@ package com.demonsters.debugger
 				// Save the type
 				// Save the function info
 				// Parameters, arguments, return type, etc
-				itemType 			= MonsterDebuggerConstants.TYPE_FUNCTION;
+				itemType 			= Constants.TYPE_FUNCTION;
 				itemName 			= methodsArr[i].xml.@name;
-				itemTarget 			= target + MonsterDebuggerConstants.DELIMITER + itemName;
+				itemTarget 			= target + Constants.DELIMITER + itemName;
 				returnType 			= parseType(methodsArr[i].xml.@returnType);
 				parameters 			= methodsArr[i].xml..parameter;
 				parametersLength 	= parameters.length();
@@ -1214,9 +1214,9 @@ package com.demonsters.debugger
 				
 				// Create the node
 				var methodXML:XML = new XML("<node/>");
-				methodXML.@icon 		= MonsterDebuggerConstants.ICON_FUNCTION;
-				methodXML.@type 		= MonsterDebuggerConstants.TYPE_FUNCTION;
-				methodXML.@access 		= MonsterDebuggerConstants.ACCESS_METHOD;
+				methodXML.@icon 		= Constants.ICON_FUNCTION;
+				methodXML.@type 		= Constants.TYPE_FUNCTION;
+				methodXML.@access 		= Constants.ACCESS_METHOD;
 				methodXML.@label 		= itemName + "(" + argsString + "):" + returnType;
 				methodXML.@name 		= itemName;
 				methodXML.@target 		= itemTarget;
@@ -1248,7 +1248,7 @@ package com.demonsters.debugger
 				
 		/**
 		 * Converts package names to type.
-		 * Example: "com.demonsters.debugger::MonsterDebugger" becomes "MonsterDebugger"
+		 * Example: "im.siver.logger::MonsterDebugger" becomes "MonsterDebugger"
 		 * We could also use getDefinitionByName() but that can't parse "builtin.as$0::MethodClosure"
 		 * @param type: The string to parse
 		 */
@@ -1270,7 +1270,7 @@ package com.demonsters.debugger
 			type = type.replace("()", "");
 			
 			// Check for the value "MethodClosure"
-			type = type.replace(MonsterDebuggerConstants.TYPE_METHOD, MonsterDebuggerConstants.TYPE_FUNCTION);
+			type = type.replace(Constants.TYPE_METHOD, Constants.TYPE_FUNCTION);
 			
 			// Return the value
 			return type;
@@ -1297,7 +1297,7 @@ package com.demonsters.debugger
 		{
 			// We dont want to send the complete byte array
 			// Only display the number of bytes
-			if (type == MonsterDebuggerConstants.TYPE_BYTEARRAY) {
+			if (type == Constants.TYPE_BYTEARRAY) {
 				return value["length"] + " bytes";
 			}
 			
