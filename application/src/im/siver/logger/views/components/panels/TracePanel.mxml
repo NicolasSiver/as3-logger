@@ -48,7 +48,7 @@
             <mx:DataGridColumn headerText="#" dataField="line" width="40">
                 <mx:itemRenderer>
                     <fx:Component>
-                        <mx:Label text="{data['line']}" paddingLeft="5" paddingRight="5"
+                        <mx:Label text="{data['line']}" fontFamily="SourceCodeProRegular_en" paddingLeft="5" paddingRight="5"
                                   truncateToFit="true"/>
                     </fx:Component>
                 </mx:itemRenderer>
@@ -56,7 +56,7 @@
             <mx:DataGridColumn headerText="Time" dataField="time" editable="false" width="100">
                 <mx:itemRenderer>
                     <fx:Component>
-                        <mx:Label text="{data['time']}" paddingLeft="5" paddingRight="5"
+                        <mx:Label text="{data['time']}" fontFamily="SourceCodeProRegular_en" paddingLeft="5" paddingRight="5"
                                   truncateToFit="true"/>
                     </fx:Component>
                 </mx:itemRenderer>
@@ -80,7 +80,7 @@
             <mx:DataGridColumn headerText="Memory" dataField="memory" editable="false" width="90">
                 <mx:itemRenderer>
                     <fx:Component>
-                        <mx:Label text="{data['memory']}" paddingLeft="5" paddingRight="5"
+                        <mx:Label text="{data['memory']}" fontFamily="SourceCodeProRegular_en" paddingLeft="5" paddingRight="5"
                                   textAlign="right" truncateToFit="true"/>
                     </fx:Component>
                 </mx:itemRenderer>

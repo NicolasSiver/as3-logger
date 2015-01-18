@@ -13,6 +13,7 @@
         s|Window {
             fontSize: 11;
         }
+
     </fx:Style>
     <fx:Script>
 		<![CDATA[
@@ -20,6 +21,7 @@
         import im.siver.logger.controllers.MenuController;
         import im.siver.logger.controllers.TabController;
         import im.siver.logger.models.Constants;
+        import im.siver.logger.models.Fonts;
         import im.siver.logger.models.LoggerClient;
         import im.siver.logger.services.HistoryReader;
         import im.siver.logger.services.netgroup.NetgroupServer;
@@ -40,6 +42,8 @@
          * Application is ready
          */
         private function onInit():void {
+            Fonts;
+
             // Start the servers
             SocketServer.initialize();
             SocketServer.onClientConnect = onClientConnect;
