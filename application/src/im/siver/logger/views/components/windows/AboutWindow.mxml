@@ -3,6 +3,11 @@
           xmlns:mx="library://ns.adobe.com/flex/mx"
           width="676" height="363" title="AS3 Logger - About"
           showStatusBar="false" creationComplete="onCreationComplete()" initialize="onInitialize()">
+    <fx:Style>
+        .links{
+            color: #f0f0f0;
+        }
+    </fx:Style>
     <fx:Script>
 		<![CDATA[
         import im.siver.logger.controllers.MenuController;
@@ -48,19 +53,21 @@
 
     <mx:Image source="@Embed('../../../../../../../assets/about.png')"/>
 
-    <mx:Text width="320" top="20" left="20" fontSize="11" selectable="false">
-        <mx:htmlText>
-            <![CDATA[
-<font size="16"><b>AS3 Logger</b></font>
+    <s:RichEditableText editable="false" lineHeight="20" focusEnabled="false" width="360" color="#f2f2f2" top="20" left="20" fontSize="12">
+        <s:span fontSize="18">AS3 Logger</s:span>
 
-<font size="12">AS3 Logger is an open source logger for Adobe Flash Platform and based on 3-rd version of Monster Debugger made by Digital Creative Agency De Monsters from Amsterdam. AS3 Logger is created in ActionScript 3 and Adobe AIR.</font>
+        <s:p marginTop="16">AS3 Logger is an open source logger for Adobe Flash Platform and based on 3-rd version of
+            Monster Debugger made by Digital Creative Agency De Monsters from Amsterdam. AS3 Logger is created in
+            ActionScript 3 and Adobe AIR.
+        </s:p>
 
-<b>Licenses:</b>
-Source Code Pro
-Copyright 2010, 2012 Adobe Systems Incorporated
-License: <u><a href="https://github.com/adobe-fonts/source-code-pro/blob/master/LICENSE.txt">SIL OPEN FONT LICENSE Version 1.1</a></u>
-]]>
-        </mx:htmlText>
-    </mx:Text>
+        <s:p marginTop="16" fontSize="14">Licenses:</s:p>
+        <s:p marginTop="8">Source Code Pro</s:p>
+        <s:p>Copyright 2010, 2012 Adobe Systems Incorporated</s:p>
+        <s:p>License:
+        <s:a styleName="links" href="https://github.com/adobe-fonts/source-code-pro/blob/master/LICENSE.txt">SIL OPEN FONT LICENSE Version
+            1.1
+        </s:a></s:p>
 
+    </s:RichEditableText>
 </s:Window>
