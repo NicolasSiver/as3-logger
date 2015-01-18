@@ -39,7 +39,7 @@
             up-arrow-skin: Embed(source="../../../../../../../assets/scroll_bar_button_up.png");
         }
     </fx:Style>
-    <mx:DataGrid id="datagrid" width="100%" height="100%" bottom="23" selectionDuration="0" styleName="data"
+    <mx:DataGrid id="datagrid" width="100%" height="100%" bottom="28" selectionDuration="0" styleName="data"
                  headerBackgroundSkin="im.siver.logger.views.skins.datagrid.DatagridHeader"
                  headerSeparatorSkin="im.siver.logger.views.skins.datagrid.DatagridHeaderDivider" minHeight="0"
                  doubleClickEnabled="true" verticalScrollPolicy="auto" verticalScrollBarStyleName="customScrollBarStyle"
@@ -87,13 +87,14 @@
             </mx:DataGridColumn>
         </mx:columns>
     </mx:DataGrid>
-    <mx:HRule id="ruler" height="1" width="100%" bottom="23" chromeColor="#B2B2B2"/>
-    <s:HGroup id="bottom" x="0" width="100%" height="24" bottom="0" verticalAlign="middle" paddingTop="1"
+    <mx:HRule id="ruler" height="1" width="100%" bottom="28" chromeColor="#B2B2B2"/>
+    <s:HGroup id="bottom" x="0" width="100%" height="28" bottom="0" verticalAlign="middle" paddingTop="1"
               paddingRight="2" paddingLeft="10" minHeight="0" gap="5">
-        <s:Label text="filter: " height="8"/>
+        <s:Label text="Filter: " height="8"/>
         <components:Filter id="filter"/>
-        <s:ToggleButton id="autoScrollButton" selected="true" label="Scroll to the end" height="20"
-                        skinClass="im.siver.logger.views.skins.button.ToggleButton" width="100"/>
+        <s:Spacer width="8"/>
+        <s:Label text="Scroll: " height="8"/>
+        <components:ToggleSwitch id="autoScrollButton" height="20" selected="true" selectedLabel="Auto" deselectedLabel="Off" skinClass="im.siver.logger.views.skins.button.ToggleSwitchSkin"/>
         <mx:Spacer width="100%"/>
         <s:Button id="clearButton" label="Clear traces" height="20"
                   skinClass="im.siver.logger.views.skins.button.DefaultButton" width="75"/>

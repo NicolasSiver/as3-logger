@@ -1,0 +1,252 @@
+<?xml version="1.0"?>
+<!--
+  Created by Nicolas on 1/18/2015.
+  Based on work: http://www.yonaskolb.com/
+  The default skin class for the Spark CheckBox component.
+
+  @see spark.components.CheckBox
+
+  @langversion 3.0
+  @playerversion Flash 10
+  @playerversion AIR 1.5
+  @productversion Flex 4
+-->
+<s:SparkSkin xmlns:fx="http://ns.adobe.com/mxml/2009"
+             xmlns:s="library://ns.adobe.com/flex/spark"
+             creationComplete="creationCompleteHandler(event)"
+             alpha.disabledStates="0.7">
+
+    <fx:Metadata>
+        <![CDATA[
+        /**
+         * @copy spark.skins.spark.ApplicationSkin#hostComponent
+         */
+        [HostComponent("spark.components.supportClasses.ToggleButtonBase")]
+        ]]>
+    </fx:Metadata>
+
+    <fx:Script>
+        <![CDATA[
+        import mx.binding.utils.ChangeWatcher;
+        import mx.events.FlexEvent;
+
+        import spark.components.supportClasses.ToggleButtonBase;
+        import spark.effects.easing.EaseInOutBase;
+
+        /**
+         * @private
+         */
+        private static const focusExclusions:Array = ["labelDisplay"];
+
+        /**
+         * @private
+         */
+        override public function get focusSkinExclusions():Array {
+            return focusExclusions;
+        }
+
+        [Bindable]
+        private var cornerRadius:Number = 10;
+        [Bindable]
+        private var labelPadding:Number = 5;
+
+        private var contentPosition:Number;
+        private var mouseDownX:Number;
+
+        protected function creationCompleteHandler(event:FlexEvent):void {
+            Sprite(hostComponent).mouseChildren = true;
+            ChangeWatcher.watch(hostComponent, "selected", selectedChangeHandler);
+            var biggestLabel:Number = Math.max(selectedGroup.width, deselectedGroup.width);
+
+            switchButton.minWidth = biggestLabel + thumb.width / 2;
+            switchButton.width = Math.max(width, biggestLabel + thumb.width / 2);
+            maskRect.width = switchButton.width;
+            selectedGroup.width = deselectedGroup.width = deselectedGroup.x = switchButton.width - thumb.width / 2;
+            switchButton.width = switchButton.width;
+            contentGroup.x = hostComponent.selected ? 0 : -(selectedGroup.width - thumb.width / 2);
+            cornerRadius = 0;
+        }
+
+        private function selectedChangeHandler(event:Event):void {
+            animate();
+        }
+
+        private function animate():void {
+            moveEffect.stop();
+            moveEffect.xTo = hostComponent.selected ? 0 : -(selectedGroup.width - thumb.width / 2);
+            slideEffect.play();
+        }
+
+        protected function thumbMouseDownHandler(event:MouseEvent):void {
+            stage.addEventListener(MouseEvent.MOUSE_MOVE, stageMouseMoveHandler);
+            stage.addEventListener(MouseEvent.MOUSE_UP, stageMouseUpHandler);
+            contentPosition = contentGroup.x;
+            mouseDownX = mouseX;
+        }
+
+        protected function stageMouseMoveHandler(event:MouseEvent):void {
+            contentGroup.x = Math.max(-(selectedGroup.width - thumb.width / 2), Math.min(0, contentPosition + (mouseX - mouseDownX)));
+        }
+
+        protected function stageMouseUpHandler(event:MouseEvent):void {
+            stage.removeEventListener(MouseEvent.MOUSE_MOVE, stageMouseMoveHandler);
+            stage.removeEventListener(MouseEvent.MOUSE_UP, stageMouseUpHandler);
+            if (Math.abs(mouseDownX - mouseX) > 2) {
+                var selected:Boolean
+                if (contentGroup.x > -(selectedGroup.width - thumb.width / 2) / 2)
+                    selected = false;
+                else
+                    selected = true;
+                if (ToggleButtonBase(hostComponent).selected != selected)
+                    ToggleButtonBase(hostComponent).selected = selected;
+                else
+                    animate();
+            }
+            ToggleButtonBase(hostComponent).selected = !ToggleButtonBase(hostComponent).selected;
+            ToggleButtonBase(hostComponent).dispatchEvent(new Event(Event.CHANGE));
+        }
+        ]]>
+    </fx:Script>
+    <fx:Declarations>
+        <s:Parallel id="slideEffect">
+            <s:Move id="moveEffect"
+                    target="{contentGroup}"
+                    duration="150"
+                    easer="{new EaseInOutBase(0.5)}"/>
+        </s:Parallel>
+
+    </fx:Declarations>
+    <s:states>
+        <s:State name="up"/>
+        <s:State name="over" stateGroups="overStates"/>
+        <s:State name="down" stateGroups="downStates"/>
+        <s:State name="disabled" stateGroups="disabledStates"/>
+        <s:State name="upAndSelected" stateGroups="selectedStates"/>
+        <s:State name="overAndSelected" stateGroups="overStates, selectedStates"/>
+        <s:State name="downAndSelected" stateGroups="downStates, selectedStates"/>
+        <s:State name="disabledAndSelected" stateGroups="disabledStates, selectedStates"/>
+    </s:states>
+
+    <s:layout>
+        <s:HorizontalLayout verticalAlign="middle" gap="10"/>
+    </s:layout>
+
+    <s:Group id="switchButton" width="100%" mouseDown="thumbMouseDownHandler(event)">
+        <s:Group id="maskRect" width="100%" height="{contentGroup.height}">
+            <s:Rect top="0" bottom="0" left="0" right="0"
+                    radiusX="{cornerRadius}"
+                    radiusY="{cornerRadius}">
+                <s:fill>
+                    <s:SolidColor alpha="0.5"/>
+                </s:fill>
+            </s:Rect>
+        </s:Group>
+        <s:Group id="contentGroup" mask="{maskRect}">
+            <s:Group height="100%">
+                <s:filters>
+
+                    <s:DropShadowFilter distance="1"
+                                        inner="true"
+                                        alpha="0.4"
+                                        blurX="5"
+                                        quality="5"
+                                        blurY="3"/>
+                </s:filters>
+                <s:Group id="selectedGroup" height="100%">
+                    <s:Rect top="0" bottom="0" left="0" right="0"
+                            topLeftRadiusX="{cornerRadius}"
+                            topLeftRadiusY="{cornerRadius}"
+                            bottomLeftRadiusX="{cornerRadius}"
+                            bottomLeftRadiusY="{cornerRadius}">
+                        <s:fill>
+                            <s:SolidColor color="#bcbcbc"/>
+                        </s:fill>
+                        <s:stroke>
+                            <s:SolidColorStroke color="0x888888" pixelHinting="true"/>
+                        </s:stroke>
+                    </s:Rect>
+                    <s:Label id="selectedLabelField"
+                             text="Yes"
+                             top="5"
+                             bottom="5"
+                             left="{labelPadding+2}"
+                             right="{labelPadding+thumb.width/2}"
+                             color="0xFFFFFF"
+                             textAlign="center"
+                             verticalAlign="middle"
+                             verticalCenter="0"
+                             baselineShift="-1"/>
+                </s:Group>
+                <s:Group id="deselectedGroup" height="100%">
+                    <s:Rect top="0" bottom="0" left="0" right="0"
+                            topRightRadiusX="{cornerRadius}"
+                            topRightRadiusY="{cornerRadius}"
+                            bottomRightRadiusX="{cornerRadius}"
+                            bottomRightRadiusY="{cornerRadius}">
+                        <s:fill>
+                            <s:LinearGradient rotation="-90">
+                                <s:GradientEntry color="0xFDFDFD"/>
+                                <s:GradientEntry color="0xEEEEEE"/>
+                            </s:LinearGradient>
+                        </s:fill>
+                        <s:stroke>
+                            <s:SolidColorStroke color="0xDDDDDD" pixelHinting="true"/>
+                        </s:stroke>
+                    </s:Rect>
+                    <s:Label id="deselectedLabelField"
+                             text="No"
+                             top="5"
+                             bottom="5"
+                             left="{labelPadding+thumb.width/2}"
+                             right="{labelPadding+2}"
+                             color="0x666666"
+                             textAlign="center"
+                             verticalCenter="0"
+                             baselineShift="-1"/>
+                </s:Group>
+            </s:Group>
+            <s:Group id="thumb"
+                     x="{selectedGroup.width-thumb.width/2}"
+                     width="30" height="100%">
+                <s:filters>
+                    <s:DropShadowFilter color="0xffffff"
+                                        angle="90"
+                                        alpha="0.8"
+                                        distance="1"
+                                        inner="true"/>
+                    <s:DropShadowFilter alpha="0.1" distance="1"/>
+                </s:filters>
+
+                <!-- over fill -->
+                <s:Rect width="100%"
+                        top="0" bottom="0" left="0" right="0"
+                        radiusX="{cornerRadius}"
+                        radiusY="{cornerRadius}">
+                    <s:fill>
+                        <s:LinearGradient rotation="-90">
+                            <s:GradientEntry color="0xfcfcfc" color.overStates="0xEEEEEE"/>
+                            <s:GradientEntry color="0xd6d6d6" color.overStates="0xCCCCCC"/>
+                        </s:LinearGradient>
+                    </s:fill>
+                </s:Rect>
+
+                <!-- over border -->
+                <s:Rect width="100%"
+                        top="0" bottom="0" left="0" right="0"
+                        radiusX="{cornerRadius}"
+                        radiusY="{cornerRadius}">
+                    <s:stroke>
+                        <s:LinearGradientStroke rotation="-90" weight="1">
+                            <s:GradientEntry color="0x999999" ratio="0"/>
+                            <s:GradientEntry color="0x919191" ratio="1"/>
+                        </s:LinearGradientStroke>
+                    </s:stroke>
+                </s:Rect>
+            </s:Group>
+        </s:Group>
+    </s:Group>
+
+    <!-- Label -->
+    <!--- @copy spark.components.supportClasses.ButtonBase#labelDisplay -->
+    <s:Label id="labelDisplay" maxDisplayedLines="1"/>
+</s:SparkSkin>
