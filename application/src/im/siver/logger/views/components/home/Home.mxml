@@ -15,6 +15,11 @@
             up-arrow-skin: Embed(source="../../../../../../../assets/scroll_bar_button_up.png");
         }
 
+        .header3{
+            fontFamily: 'RobotoLight_en';
+            fontSize: 24;
+        }
+
     </fx:Style>
 
     <mx:HBox verticalGap="0" horizontalGap="0" fontSize="11" top="6" left="-1" right="-1" bottom="-1"
@@ -24,9 +29,9 @@
                    verticalScrollBarStyleName="customScrollBarStyle">
             <s:VGroup x="0" y="0" width="100%" height="100%" id="groupHome" paddingRight="20" paddingLeft="20">
                 <s:SkinnableContainer width="100%">
-                    <s:Label y="35" text="Dashboard" fontSize="13" fontStyle="normal" fontWeight="bold" left="15"/>
-                    <s:Label y="62" lineHeight="18" maxWidth="580"
-                             text="To get started with Monster Debugger 3 you can use the implementation wizard. We also encourage you to check out the tour as that guides you through all the different features and functionalities that the Monster Debugger has. If this is the first time that you work with the debugger and want to see how you could use it in your own projects you should definitely check out the game that we built."
+                    <s:Label y="35" text="Dashboard" styleName="header3" left="15"/>
+                    <s:Label y="75" lineHeight="18" maxWidth="580"
+                             text="To get started with AS3 Logger you can use the implementation wizard. More information could be found on product page."
                              left="15" right="15"/>
                 </s:SkinnableContainer>
                 <s:SkinnableContainer width="100%">
@@ -88,12 +93,12 @@
                 </s:SkinnableContainer>
             </s:VGroup>
         </mx:Canvas>
-        <s:SkinnableContainer width="425" height="100%">
+        <s:SkinnableContainer width="488" height="100%">
             <s:BorderContainer backgroundColor="#F5F5F5" borderColor="#B2B2B2" borderStyle="solid" top="-1" left="-1"
                                right="-1" bottom="-1">
                 <s:SkinnableContainer width="100%">
-                    <s:Label text="Recent files" fontSize="13" fontStyle="italic" fontWeight="bold" y="35" left="15"/>
-                    <s:Group id="recentSessions" y="55" left="12" right="12">
+                    <s:Label text="Recent files" styleName="header3" y="35" left="15"/>
+                    <s:Group id="recentSessions" y="75" left="12" right="12">
                         <s:layout>
                             <s:VerticalLayout gap="0"/>
                         </s:layout>
