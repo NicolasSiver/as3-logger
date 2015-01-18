@@ -108,7 +108,7 @@ package im.siver.logger.services.netgroup
 			}
 
 			// Get the basic info needed to open a tab
-			send(Constants.ID, {command:Constants.COMMAND_HELLO});
+			send(Constants.MONSTER_DEBUGGER_ID, {command:Constants.COMMAND_HELLO});
 		}
 
 
@@ -236,7 +236,7 @@ package im.siver.logger.services.netgroup
 				var item:ClientData = ClientData.read(_package);
 
 				// Check if we should handle the call internaly
-				if (item.id != null && item.id == Constants.ID) {
+				if (item.id != null && item.id == Constants.MONSTER_DEBUGGER_ID) {
 					processData(item);
 				}
 
@@ -287,7 +287,7 @@ package im.siver.logger.services.netgroup
 				_fileTitle = item.data["fileTitle"];
 
 				// Get the roots
-				send(Constants.ID, {command:Constants.COMMAND_BASE});
+				send(Constants.MONSTER_DEBUGGER_ID, {command:Constants.COMMAND_BASE});
 
 				// Send the started command
 				if (_onStart != null) _onStart(this);

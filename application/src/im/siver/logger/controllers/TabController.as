@@ -123,7 +123,7 @@ package im.siver.logger.controllers {
          */
         private function send(data:Object):void {
             if (_client != null) {
-                _client.send(Constants.ID, data);
+                _client.send(Constants.MONSTER_DEBUGGER_ID, data);
             }
         }
 
@@ -131,7 +131,7 @@ package im.siver.logger.controllers {
          * Incomming data from the client
          */
         private function dataHandler(item:ClientData):void {
-            if (item.id == Constants.ID) {
+            if (item.id == Constants.MONSTER_DEBUGGER_ID) {
 
                 _traceController.setData(item.data);
                 _monitorController.setData(item.data);
@@ -140,9 +140,9 @@ package im.siver.logger.controllers {
                 switch (item.data["command"]) {
                     case Constants.COMMAND_BASE:
                     case Constants.COMMAND_INSPECT:
-                        _client.send(Constants.ID, {command: Constants.COMMAND_GET_PROPERTIES, target: ""});
-                        _client.send(Constants.ID, {command: Constants.COMMAND_GET_FUNCTIONS, target: ""});
-                        _client.send(Constants.ID, {command: Constants.COMMAND_GET_PREVIEW, target: ""});
+                        _client.send(Constants.MONSTER_DEBUGGER_ID, {command: Constants.COMMAND_GET_PROPERTIES, target: ""});
+                        _client.send(Constants.MONSTER_DEBUGGER_ID, {command: Constants.COMMAND_GET_FUNCTIONS, target: ""});
+                        _client.send(Constants.MONSTER_DEBUGGER_ID, {command: Constants.COMMAND_GET_PREVIEW, target: ""});
                         break;
                 }
             }

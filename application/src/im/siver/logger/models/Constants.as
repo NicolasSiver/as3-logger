@@ -3,7 +3,7 @@ package im.siver.logger.models {
     public final class Constants {
 
         // Core app id
-        public static const ID:String = "im.siver.logger.v1.core";
+        public static const MONSTER_DEBUGGER_ID:String = "com.demonsters.debugger.core";
 
         // Paths
         public static const PATH_UPDATE:String = "http://www.monsterdebugger.com/xml/3/update.xml";
