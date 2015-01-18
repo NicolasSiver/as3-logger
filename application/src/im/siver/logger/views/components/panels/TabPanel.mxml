@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark" xmlns:mx="library://ns.adobe.com/flex/mx" minHeight="0" minWidth="0" width="200" height="200" skinClass="im.siver.logger.views.skins.panel.PanelInside">
-	<fx:Declarations>
-		<!-- Place non-visual elements (e.g., services, value objects) here -->
-	</fx:Declarations>
-	<fx:Script>
+<s:SkinnableContainer xmlns:fx="http://ns.adobe.com/mxml/2009" xmlns:s="library://ns.adobe.com/flex/spark"
+                      xmlns:mx="library://ns.adobe.com/flex/mx" minHeight="0" minWidth="0" width="200" height="200"
+                      skinClass="im.siver.logger.views.skins.panel.PanelInside">
+    <fx:Declarations>
+        <!-- Place non-visual elements (e.g., services, value objects) here -->
+    </fx:Declarations>
+    <fx:Script>
 		<![CDATA[
         import im.siver.logger.views.skins.panel.PanelInside;
         import im.siver.logger.views.skins.panel.PanelInsideNonTab;
@@ -31,20 +33,22 @@
                 if (panelContent.selectedChild != null) {
                     titleLabel.text = panelContent.selectedChild.name;
                 }
-                setStyle("skinClass", im.siver.logger.views.skins.panel.PanelInsideNonTab);
+                setStyle("skinClass", PanelInsideNonTab);
                 tabBarTop.y = -21;
                 titleLabel.y = -14;
             } else {
                 showTabBar = true;
                 tabBarTop.y = -24;
-                setStyle("skinClass", im.siver.logger.views.skins.panel.PanelInside);
+                setStyle("skinClass", PanelInside);
                 titleLabel.y = -17;
             }
         }
         ]]>
 	</fx:Script>
-	<s:Label x="10" y="-30" id="titleLabel" color="#FFFFFF"/>
-	<s:TabBar id="tabBarTop" x="0" y="-24" dataProvider="{panelContent}" width="100%" skinClass="im.siver.logger.views.skins.tabpanel.TabPanelSkin" height="21" right="-1" visible="{showTabBar}"/>
-	<mx:ViewStack x="0" y="0" id="panelContent" width="100%" height="100%" creationPolicy="all" added="tabBar()">
-	</mx:ViewStack>
+    <s:Label x="10" y="-30" id="titleLabel" color="#FFFFFF"/>
+    <s:TabBar id="tabBarTop" x="0" y="-24" dataProvider="{panelContent}" width="100%"
+              skinClass="im.siver.logger.views.skins.tabpanel.TabPanelSkin" height="21" right="-1"
+              visible="{showTabBar}"/>
+    <mx:ViewStack x="0" y="0" id="panelContent" width="100%" height="100%" creationPolicy="all" added="tabBar()">
+    </mx:ViewStack>
 </s:SkinnableContainer>
