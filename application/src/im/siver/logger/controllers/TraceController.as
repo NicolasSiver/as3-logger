@@ -205,11 +205,7 @@ package im.siver.logger.controllers {
 
                     // Format the properties
                     date = data["date"];
-                    hours = (date.getHours() < 10) ? "0" + date.getHours().toString() : date.getHours().toString();
-                    minutes = (date.getMinutes() < 10) ? "0" + date.getMinutes().toString() : date.getMinutes().toString();
-                    seconds = (date.getSeconds() < 10) ? "0" + date.getSeconds().toString() : date.getSeconds().toString();
-                    miliseconds = date.getMilliseconds().toString();
-                    time = hours + ":" + minutes + ":" + seconds + "." + miliseconds;
+                    time = zeroPad(date.getHours(), 2) + ":" + zeroPad(date.getMinutes(), 2) + ":" + zeroPad(date.getSeconds(), 2) + "." + zeroPad(date.getMilliseconds(), 3);
                     memory = Math.round(data["memory"] / 1024) + " Kb";
 
                     // Create the trace object
@@ -229,7 +225,7 @@ package im.siver.logger.controllers {
                     // Clean target
                     if (data['target'].indexOf('object') != -1) {
                         traceItem.target = String(data['target']).replace('object ', '');
-                    }else{
+                    } else {
                         traceItem.target = data["target"];
                     }
 
@@ -287,6 +283,14 @@ package im.siver.logger.controllers {
                     addItem(traceItem);
                     break;
             }
+        }
+
+        private function zeroPad(value:int, length:int, pad:String = '0'):String {
+            var result:String = String(value);
+            while (result.length < length) {
+                result = pad + result;
+            }
+            return result;
         }
     }
 }
