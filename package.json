@@ -1,0 +1,29 @@
+{
+  "name": "As3Logger",
+  "version": "1.0.0",
+  "description": "Open source logger for Adobe Flash Platform",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/NicolasSiver/as3-logger.git"
+  },
+  "keywords": [
+    "as3",
+    "logging",
+    "debug",
+    "flash",
+    "air"
+  ],
+  "author": "Nicolas Siver",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/NicolasSiver/as3-logger/issues"
+  },
+  "homepage": "https://github.com/NicolasSiver/as3-logger",
+  "devDependencies": {
+    "gulp": "^3.8.10"
+  }
+}
