@@ -24,6 +24,8 @@
   },
   "homepage": "https://github.com/NicolasSiver/as3-logger",
   "devDependencies": {
-    "gulp": "^3.8.10"
+    "gulp": "^3.8.10",
+    "gulp-util": "^3.0.2",
+    "q": "^1.1.2"
   }
 }
