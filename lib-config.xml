@@ -45,7 +45,7 @@
       </source-path>
       -->
 
-      <define append='true'>
+      <!-- <define append='true'>
           <name>CONFIG::DEFAULT</name>    
           <value>true</value>
       </define>
@@ -53,7 +53,7 @@
       <define append='true'>
           <name>CONFIG::MOBILE</name>    
           <value>false</value>
-      </define>
+      </define> -->
 
      <!-- Allow the source-path to have path-elements which contain other path-elements -->
      <allow-source-path-overlap>false</allow-source-path-overlap>

@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+
+<flex-config>
+
+   <compiler>
+
+      <define append='true'>
+          <name>CONFIG::DEFAULT</name>    
+          <value>true</value>
+      </define>
+
+      <define append='true'>
+          <name>CONFIG::MOBILE</name>    
+          <value>false</value>
+      </define>
+
+   </compiler>
+
+</flex-config>
