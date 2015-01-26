@@ -6,7 +6,7 @@ package im.siver.logger.models {
         public static const MONSTER_DEBUGGER_ID:String = "com.demonsters.debugger.core";
 
         // Paths
-        public static const PATH_UPDATE:String = "http://www.monsterdebugger.com/xml/3/update.xml";
+        public static const PATH_UPDATE:String = "http://siver.im/apps/air/xml/update.xml";
 
         // Commands
         public static const COMMAND_HELLO:String = "HELLO";

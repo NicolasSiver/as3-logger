@@ -25,6 +25,7 @@
         import im.siver.logger.models.LoggerClient;
         import im.siver.logger.models.WindowIds;
         import im.siver.logger.services.HistoryReader;
+        import im.siver.logger.services.AppUpdater;
         import im.siver.logger.services.netgroup.NetgroupServer;
         import im.siver.logger.services.socket.SocketServer;
         import im.siver.logger.utils.LoggerUtils;
@@ -52,8 +53,7 @@
             NetgroupServer.onClientConnect = onClientConnect;
 
             // Check for update
-            //FIXME Restore in release
-            //MonsterDebuggerUpdater.check();
+            AppUpdater.check();
 
             // Center window if the window is outside a screen
             LoggerUtils.loadWindowOptions(nativeWindow, WindowIds.MAIN);
