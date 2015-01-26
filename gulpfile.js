@@ -8,7 +8,8 @@ var gulp = require('gulp'),
     request = require('request'),
     fs = require('fs'),
     rename = require("gulp-rename"),
-    replace = require('gulp-replace');
+    replace = require('gulp-replace'),
+    sftp = require('gulp-sftp');
 
 
 var playerVersion = '16.0',
@@ -69,7 +70,7 @@ gulp.task('parse:log', function () {
 gulp.task('publish:app', ['compile:app'], function () {
     var deferred = Q.defer();
     request({
-        url: util.format('https://api.github.com/repos/%s/%s/releases', 'NicolasSiver', 'test-release'),
+        url: util.format('https://api.github.com/repos/%s/%s/releases', credentials.github.user, credentials.github.repo),
         method: 'POST',
         json: true,
         body: {
@@ -82,7 +83,7 @@ gulp.task('publish:app', ['compile:app'], function () {
         },
         headers: {
             'Accept': 'application/vnd.github.v3+json',
-            'Authorization': 'token ' + credentials.gitHubToken,
+            'Authorization': 'token ' + credentials.github.token,
             'User-Agent': 'As3Logger-Publish-Script'
         }
     }, function (error, response, body) {
@@ -98,19 +99,19 @@ gulp.task('publish:app', ['compile:app'], function () {
                     body: loggerData,
                     headers: {
                         'Accept': 'application/vnd.github.v3+json',
-                        'Authorization': 'token ' + credentials.gitHubToken,
+                        'Authorization': 'token ' + credentials.github.token,
                         'User-Agent': 'As3Logger-Publish-Script',
                         'Content-Type': 'application/zip'
                     }
                 }, function (error, response, body) {
-                    if(error){
+                    if (error) {
                         deferred.reject(new Error(JSON.stringify(error)));
-                    }else{
-                        if(response.statusCode == 201){
+                    } else {
+                        if (response.statusCode == 201) {
                             appUrl = JSON.parse(body).browser_download_url;
                             gutil.log(gutil.colors.green('Application published at ' + appUrl));
                             deferred.resolve();
-                        }else{
+                        } else {
                             //API error
                             gutil.log(gutil.colors.red('Error: ' + JSON.stringify(body)));
                             deferred.reject(new Error(body.message));
@@ -127,6 +128,17 @@ gulp.task('publish:app', ['compile:app'], function () {
     return deferred.promise;
 });
 
+gulp.task('upload:update-xml', ['create:update-xml'], function () {
+    return gulp
+        .src('bin/update.xml')
+        .pipe(sftp({
+            host: credentials.host.url,
+            remotePath: credentials.host.path,
+            user: credentials.host.user,
+            passphrase: credentials.host.pwd
+        }));
+});
+
 gulp.task('validate:app-semver', ['parse:log'], function () {
     var descriptor = fs.readFileSync(airDescriptor, {encoding: 'utf8'});
     var versionLine = descriptor.match(/<versionNumber>(.*?)<\/versionNumber>/);
@@ -139,11 +151,10 @@ gulp.task('validate:app-semver', ['parse:log'], function () {
     }
 });
 
-//gulp.task('default', ['create:swc-web', 'create:swc-mobile', 'copy:content']);
 gulp.task('default', [
     'validate:app-semver',
     'publish:app',
-    'create:update-xml'
+    'upload:update-xml'
 ]);
 
 function addCommand(app, command) {
