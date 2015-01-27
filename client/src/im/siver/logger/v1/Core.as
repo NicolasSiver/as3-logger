@@ -1,34 +1,25 @@
 package im.siver.logger.v1 {
 
-    import im.siver.logger.*;
-
     import flash.display.BitmapData;
     import flash.display.DisplayObject;
     import flash.display.Sprite;
     import flash.display.Stage;
     import flash.events.Event;
-    import flash.events.MouseEvent;
     import flash.events.TimerEvent;
     import flash.external.ExternalInterface;
-    import flash.geom.Point;
     import flash.geom.Rectangle;
     import flash.system.Capabilities;
-    import flash.text.TextField;
-    import flash.text.TextFieldAutoSize;
-    import flash.text.TextFormat;
     import flash.utils.ByteArray;
     import flash.utils.Timer;
     import flash.utils.getDefinitionByName;
 
     /**
      * @private
-     * The Monster Debugger core functions
      */
     internal class Core {
 
         // Monitor and highlight interval timer
         private static const MONITOR_UPDATE:int = 1000;
-        private static const HIGHLITE_COLOR:uint = 0x3399FF;
 
         // Monitor timer
         private static var _monitorTimer:Timer;
@@ -42,13 +33,6 @@ package im.siver.logger.v1 {
 
         // The stage needed for highlight
         private static var _stage:Stage = null;
-
-        // Highlight sprite
-        private static var _highlight:Sprite;
-        private static var _highlightInfo:TextField;
-        private static var _highlightTarget:DisplayObject;
-        private static var _highlightMouse:Boolean;
-        private static var _highlightUpdate:Boolean;
 
         // The core id
         internal static const ID:String = "im.siver.logger.v1";
@@ -76,33 +60,6 @@ package im.siver.logger.v1 {
             // This is needed for the enterframe ticks
             _monitorSprite = new Sprite();
             _monitorSprite.addEventListener(Event.ENTER_FRAME, frameHandler, false, 0, true);
-
-            var format:TextFormat = new TextFormat();
-            format.font = "Arial";
-            format.color = 0xFFFFFF;
-            format.size = 11;
-            format.leftMargin = 5;
-            format.rightMargin = 5;
-
-            // Create the textfield for the highlight and inspect
-            _highlightInfo = new TextField();
-            _highlightInfo.embedFonts = false;
-            _highlightInfo.autoSize = TextFieldAutoSize.LEFT;
-            _highlightInfo.mouseWheelEnabled = false;
-            _highlightInfo.mouseEnabled = false;
-            _highlightInfo.condenseWhite = false;
-            _highlightInfo.embedFonts = false;
-            _highlightInfo.multiline = false;
-            _highlightInfo.selectable = false;
-            _highlightInfo.wordWrap = false;
-            _highlightInfo.defaultTextFormat = format;
-            _highlightInfo.text = "";
-
-            // Create the highlight
-            _highlight = new Sprite();
-            _highlightMouse = false;
-            _highlightTarget = null;
-            _highlightUpdate = false;
         }
 
         /**
@@ -118,9 +75,8 @@ package im.siver.logger.v1 {
 
         /**
          * @private
-         * See MonsterDebugger class
          */
-        internal static function trace(caller:*, object:*, person:String = "", label:String = "", color:uint = 0x000000, depth:int = 5):void {
+        internal static function trace(caller:*, object:*, color:uint = 0x000000, depth:int = 5):void {
             if (Logger.enabled) {
 
                 // Get the object information
@@ -134,8 +90,6 @@ package im.siver.logger.v1 {
                     target:    String(caller),
                     reference: Utils.getReferenceID(caller),
                     xml:       xml,
-                    person:    person,
-                    label:     label,
                     color:     color
                 };
 
@@ -173,26 +127,6 @@ package im.siver.logger.v1 {
 
                     // Send the data
                     send(data);
-                }
-            }
-        }
-
-        /**
-         * @private
-         * See MonsterDebugger class
-         */
-        internal static function inspect(object:*):void {
-            if (Logger.enabled) {
-
-                // Set the new root
-                _base = object;
-
-                // Get the new target
-                var obj:* = Utils.getObject(_base, "", 0);
-                if (obj != null) {
-                    // Parse the new target
-                    var xml:XML = XML(Utils.parse(obj, "", 1, 2, true));
-                    send({command: Constants.COMMAND_BASE, xml: xml});
                 }
             }
         }
@@ -441,47 +375,6 @@ package im.siver.logger.v1 {
                         }
                     }
                     break;
-
-                // Set the highlite on an object
-                case Constants.COMMAND_HIGHLIGHT:
-                    obj = Utils.getObject(_base, item.data["target"], 0);
-                    if (obj != null && Utils.isDisplayObject(obj)) {
-                        if (DisplayObject(obj).stage != null && DisplayObject(obj).stage is Stage) {
-                            _stage = obj["stage"];
-                        }
-                        if (_stage != null) {
-                            highlightClear();
-                            send({command: Constants.COMMAND_STOP_HIGHLIGHT});
-                            _highlight.removeEventListener(MouseEvent.CLICK, highlightClicked);
-                            _highlight.mouseEnabled = false;
-                            _highlightTarget = DisplayObject(obj);
-                            _highlightMouse = false;
-                            _highlightUpdate = true;
-                        }
-                    }
-                    break;
-
-                // Show the highlight
-                case Constants.COMMAND_START_HIGHLIGHT:
-                    highlightClear();
-                    _highlight.addEventListener(MouseEvent.CLICK, highlightClicked, false, 0, true);
-                    _highlight.mouseEnabled = true;
-                    _highlightTarget = null;
-                    _highlightMouse = true;
-                    _highlightUpdate = true;
-                    send({command: Constants.COMMAND_START_HIGHLIGHT});
-                    break;
-
-                // Remove the highlight
-                case Constants.COMMAND_STOP_HIGHLIGHT:
-                    highlightClear();
-                    _highlight.removeEventListener(MouseEvent.CLICK, highlightClicked);
-                    _highlight.mouseEnabled = false;
-                    _highlightTarget = null;
-                    _highlightMouse = false;
-                    _highlightUpdate = false;
-                    send({command: Constants.COMMAND_STOP_HIGHLIGHT});
-                    break;
             }
         }
 
@@ -532,191 +425,6 @@ package im.siver.logger.v1 {
         private static function frameHandler(event:Event):void {
             if (Logger.enabled) {
                 _monitorFrames++;
-                if (_highlightUpdate) {
-                    highlightUpdate();
-                }
-            }
-        }
-
-        /**
-         * Highlight clicked.
-         */
-        private static function highlightClicked(event:MouseEvent):void {
-            // Stop
-            event.preventDefault();
-            event.stopImmediatePropagation();
-
-            // Clear the highlight
-            highlightClear();
-
-            // Get objects under point
-            _highlightTarget = Utils.getObjectUnderPoint(_stage, new Point(_stage.mouseX, _stage.mouseY));
-
-            // Stop mouse interactions
-            _highlightMouse = false;
-            _highlight.removeEventListener(MouseEvent.CLICK, highlightClicked);
-            _highlight.mouseEnabled = false;
-
-            // Inspect
-            if (_highlightTarget != null) {
-                inspect(_highlightTarget);
-                highlightDraw(false);
-            }
-
-            // Send stop
-            send({command: Constants.COMMAND_STOP_HIGHLIGHT});
-        }
-
-        /**
-         * Highlight timer callback.
-         */
-        private static function highlightUpdate():void {
-            // Clear the highlight
-            highlightClear();
-
-            // Mouse interactions
-            if (_highlightMouse) {
-
-                // Regular check for stage
-                if (_base.hasOwnProperty("stage") && _base["stage"] != null && _base["stage"] is Stage) {
-                    _stage = _base["stage"] as Stage;
-                }
-
-                // Desktop check
-                if (Capabilities.playerType == "Desktop") {
-                    var NativeApplicationClass:* = getDefinitionByName("flash.desktop::NativeApplication");
-                    if (NativeApplicationClass != null && NativeApplicationClass["nativeApplication"]["activeWindow"] != null) {
-                        _stage = NativeApplicationClass["nativeApplication"]["activeWindow"]["stage"];
-                    }
-                }
-
-                // Return if no stage is found
-                if (_stage == null) {
-                    _highlight.removeEventListener(MouseEvent.CLICK, highlightClicked);
-                    _highlight.mouseEnabled = false;
-                    _highlightTarget = null;
-                    _highlightMouse = false;
-                    _highlightUpdate = false;
-                    return;
-                }
-
-                // Get objects under point
-                _highlightTarget = Utils.getObjectUnderPoint(_stage, new Point(_stage.mouseX, _stage.mouseY));
-                if (_highlightTarget != null) {
-                    highlightDraw(true);
-                }
-                return;
-            }
-
-            // Only update the target
-            if (_highlightTarget != null) {
-                if (_highlightTarget.stage == null || _highlightTarget.parent == null) {
-                    _highlight.removeEventListener(MouseEvent.CLICK, highlightClicked);
-                    _highlight.mouseEnabled = false;
-                    _highlightTarget = null;
-                    _highlightMouse = false;
-                    _highlightUpdate = false;
-                    return;
-                }
-                highlightDraw(false);
-            }
-        }
-
-        /**
-         * Highlight an object.
-         */
-        private static function highlightDraw(fill:Boolean):void {
-            // Return if needed
-            if (_highlightTarget == null) {
-                return;
-            }
-
-            // Get the outer bounds
-            var boundsOuter:Rectangle = _highlightTarget.getBounds(_stage);
-            if (_highlightTarget is Stage) {
-                boundsOuter.x = 0;
-                boundsOuter.y = 0;
-                boundsOuter.width = _highlightTarget["stageWidth"];
-                boundsOuter.height = _highlightTarget["stageHeight"];
-            } else {
-                boundsOuter.x = int(boundsOuter.x + 0.5);
-                boundsOuter.y = int(boundsOuter.y + 0.5);
-                boundsOuter.width = int(boundsOuter.width + 0.5);
-                boundsOuter.height = int(boundsOuter.height + 0.5);
-            }
-
-            // Get the inner bounds for border
-            var boundsInner:Rectangle = boundsOuter.clone();
-            boundsInner.x += 2;
-            boundsInner.y += 2;
-            boundsInner.width -= 4;
-            boundsInner.height -= 4;
-            if (boundsInner.width < 0) boundsInner.width = 0;
-            if (boundsInner.height < 0) boundsInner.height = 0;
-
-            // Draw the first border
-            _highlight.graphics.clear();
-            _highlight.graphics.beginFill(HIGHLITE_COLOR, 1);
-            _highlight.graphics.drawRect(boundsOuter.x, boundsOuter.y, boundsOuter.width, boundsOuter.height);
-            _highlight.graphics.drawRect(boundsInner.x, boundsInner.y, boundsInner.width, boundsInner.height);
-            if (fill) {
-                _highlight.graphics.beginFill(HIGHLITE_COLOR, 0.25);
-                _highlight.graphics.drawRect(boundsInner.x, boundsInner.y, boundsInner.width, boundsInner.height);
-            }
-
-            // Set the text
-            if (_highlightTarget.name != null) {
-                _highlightInfo.text = String(_highlightTarget.name) + " - " + String(DescribeType.get(_highlightTarget).@name);
-            } else {
-                _highlightInfo.text = String(DescribeType.get(_highlightTarget).@name);
-            }
-
-            // Calculate the text size
-            var boundsText:Rectangle = new Rectangle(
-                    boundsOuter.x,
-                    boundsOuter.y - (_highlightInfo.textHeight + 3),
-                    _highlightInfo.textWidth + 15,
-                    _highlightInfo.textHeight + 5
-            );
-
-            // Check for offset values
-            if (boundsText.y < 0) boundsText.y = boundsOuter.y + boundsOuter.height;
-            if (boundsText.y + boundsText.height > _stage.stageHeight) boundsText.y = _stage.stageHeight - boundsText.height;
-            if (boundsText.x < 0) boundsText.x = 0;
-            if (boundsText.x + boundsText.width > _stage.stageWidth) boundsText.x = _stage.stageWidth - boundsText.width;
-
-            // Draw text container
-            _highlight.graphics.beginFill(HIGHLITE_COLOR, 1);
-            _highlight.graphics.drawRect(boundsText.x, boundsText.y, boundsText.width, boundsText.height);
-            _highlight.graphics.endFill();
-
-            // Set position
-            _highlightInfo.x = boundsText.x;
-            _highlightInfo.y = boundsText.y;
-
-            // Add the highlight to the objects parent
-            try {
-                _stage.addChild(_highlight);
-                _stage.addChild(_highlightInfo);
-            } catch (e:Error) {
-                // clearHighlight();
-            }
-        }
-
-        /**
-         * Clear the highlight on a object
-         */
-        private static function highlightClear():void {
-            if (_highlight != null && _highlight.parent != null) {
-                _highlight.parent.removeChild(_highlight);
-                _highlight.graphics.clear();
-                _highlight.x = 0;
-                _highlight.y = 0;
-            }
-            if (_highlightInfo != null && _highlightInfo.parent != null) {
-                _highlightInfo.parent.removeChild(_highlightInfo);
-                _highlightInfo.x = 0;
-                _highlightInfo.y = 0;
             }
         }
 

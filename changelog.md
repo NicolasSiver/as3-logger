@@ -1,7 +1,7 @@
 ### Version: 1.0.0, 26.01.2015
 
 * Very first release
-* Full compatibility with MonsterDebugger client
+* Full compatibility with MonsterDebugger client (temporal)
 * Removed legacy Socket server
 * Removed debugging tools: display list tracer, breakpoints
 * Trace Window: added auto-scroll to the end

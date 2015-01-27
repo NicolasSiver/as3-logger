@@ -2,7 +2,6 @@ package im.siver.logger.v1 {
 
     /**
      * @private
-     * The Monster Debugger constants.
      */
     internal class Constants {
 
@@ -18,9 +17,6 @@ package im.siver.logger.v1 {
         internal static const COMMAND_GET_PREVIEW:String = "GET_PREVIEW";
         internal static const COMMAND_SET_PROPERTY:String = "SET_PROPERTY";
         internal static const COMMAND_CALL_METHOD:String = "CALL_METHOD";
-        internal static const COMMAND_HIGHLIGHT:String = "HIGHLIGHT";
-        internal static const COMMAND_START_HIGHLIGHT:String = "START_HIGHLIGHT";
-        internal static const COMMAND_STOP_HIGHLIGHT:String = "STOP_HIGHLIGHT";
         internal static const COMMAND_CLEAR_TRACES:String = "CLEAR_TRACES";
         internal static const COMMAND_MONITOR:String = "MONITOR";
         internal static const COMMAND_SAMPLES:String = "SAMPLES";
