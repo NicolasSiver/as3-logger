@@ -22,7 +22,7 @@ package im.siver.logger.controllers {
     public final class TraceController extends EventDispatcher {
 
         [Bindable]
-        private var _dataFilterd:ArrayCollection = new ArrayCollection();
+        private var _dataFiltered:ArrayCollection = new ArrayCollection();
 
         private var _data:ArrayCollection = new ArrayCollection();
         private var _panel:TracePanel;
@@ -49,11 +49,11 @@ package im.siver.logger.controllers {
          */
         private function creationComplete(e:FlexEvent):void {
             _panel.removeEventListener(FlexEvent.CREATION_COMPLETE, creationComplete);
-            _panel.datagrid.dataProvider = _dataFilterd;
+            _panel.datagrid.dataProvider = _dataFiltered;
             _panel.datagrid.addEventListener(ListEvent.ITEM_DOUBLE_CLICK, showTrace, false, 0, true);
             _panel.filter.addEventListener(Filter.CHANGED, filterChanged, false, 0, true);
             _panel.clearButton.addEventListener(MouseEvent.CLICK, clear, false, 0, true);
-            _dataFilterd.addEventListener(CollectionEvent.COLLECTION_CHANGE, collectionDidChange, false, 0, true);
+            _dataFiltered.addEventListener(CollectionEvent.COLLECTION_CHANGE, collectionDidChange, false, 0, true);
         }
 
         /**
@@ -62,82 +62,41 @@ package im.siver.logger.controllers {
         private function filterChanged(event:Event):void {
             // Check if a filter term is given
             if (_panel.filter.words.length == 0) {
-                _dataFilterd.filterFunction = null;
-                _dataFilterd.refresh();
+                _dataFiltered.filterFunction = null;
+                _dataFiltered.refresh();
             } else {
-                _dataFilterd.filterFunction = checkFilter;
-                _dataFilterd.refresh();
+                _dataFiltered.filterFunction = fullFilter;
+                _dataFiltered.refresh();
             }
-        }
-
-        private function addItem(item:Object):void {
-            _dataFilterd.addItem(item);
-        }
-
-        private function simpleFilter(item:Object):Boolean {
-            return false;
         }
 
         /**
-         * Loop through the search terms and compare strings
+         * Look through targets and messages
+         * @param item data-provider item
+         * @return true if item has been found
          */
-        private function checkFilter(item:Object):Boolean {
+        private function fullFilter(item:Object):Boolean {
             var message:String = item.message;
             var target:String = item.target;
-            var label:String = item.label;
-            var person:String = item.person;
-            if (message == null) message = "";
-            if (target == null) target = "";
-            if (label == null) label = "";
-            if (person == null) person = "";
-            message = StringUtil.trim(message).toLowerCase();
-            target = StringUtil.trim(target).toLowerCase();
-            label = StringUtil.trim(label).toLowerCase();
-            person = StringUtil.trim(person).toLowerCase();
-            var i:int;
+            var i:int, words:Array = _panel.filter.words, len:int = words.length;
 
-            // Clone words
-            var words:Array = [];
-            for (i = 0; i < _panel.filter.words.length; i++) {
-                words[i] = _panel.filter.words[i];
-            }
-
-            if (message != "") {
-                for (i = 0; i < words.length; i++) {
-                    if (message.indexOf(words[i]) != -1) {
-                        words.splice(i, 1);
-                        i--;
-                    }
-                }
-            }
-            if (words.length == 0) return true;
-            if (target != "") {
-                for (i = 0; i < words.length; i++) {
+            if (target != null) {
+                target = target.toLowerCase();
+                for (i = 0; i < len; ++i) {
                     if (target.indexOf(words[i]) != -1) {
-                        words.splice(i, 1);
-                        i--;
+                        return true;
                     }
                 }
             }
-            if (words.length == 0) return true;
-            if (label != "") {
-                for (i = 0; i < words.length; i++) {
-                    if (label.indexOf(words[i]) != -1) {
-                        words.splice(i, 1);
-                        i--;
+
+            if (message != null) {
+                message = message.toLowerCase();
+                for (i = 0; i < len; ++i) {
+                    if (message.indexOf(words[i]) != -1) {
+                        return true;
                     }
                 }
             }
-            if (words.length == 0) return true;
-            if (person != "") {
-                for (i = 0; i < words.length; i++) {
-                    if (person.indexOf(words[i]) != -1) {
-                        words.splice(i, 1);
-                        i--;
-                    }
-                }
-            }
-            if (words.length == 0) return true;
             return false;
         }
 
@@ -149,7 +108,7 @@ package im.siver.logger.controllers {
             if (event.currentTarget.selectedItem != null) {
 
                 // Get the data
-                var item:Object = _dataFilterd.getItemAt(event.currentTarget.selectedIndex);
+                var item:Object = _dataFiltered.getItemAt(event.currentTarget.selectedIndex);
 
                 // Check the window to open
                 if (item.message == "Snapshot" && item.xml == null) {
@@ -169,7 +128,7 @@ package im.siver.logger.controllers {
          */
         public function clear(event:MouseEvent = null):void {
             _data.removeAll();
-            _dataFilterd.removeAll();
+            _dataFiltered.removeAll();
             _panel.datagrid.horizontalScrollPosition = 0;
         }
 
@@ -233,7 +192,7 @@ package im.siver.logger.controllers {
 
                     // Add to list
                     _data.addItem(traceItem);
-                    addItem(traceItem);
+                    _dataFiltered.addItem(traceItem);
                     break;
 
                 case Constants.COMMAND_SNAPSHOT:
@@ -272,7 +231,7 @@ package im.siver.logger.controllers {
 
                     // Add to list
                     _data.addItem(traceItem);
-                    addItem(traceItem);
+                    _dataFiltered.addItem(traceItem);
                     break;
             }
         }
