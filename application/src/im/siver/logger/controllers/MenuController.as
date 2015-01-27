@@ -22,7 +22,6 @@ package im.siver.logger.controllers {
         public static const CLOSE_TAB:String = "closeTab";
 
         public static const EXPORT_CLIENT_SWC:String = "exportclientclasses";
-        public static const EXPORT_CLIENT_MOBILE_SWC:String = "exportclientswc";
 
         public static const TOGGLE_TRACE_VIEW:String = "toggletraceview";
         public static const TOGGLE_MEMORY_MONITOR_VIEW:String = "togglememorymonitorview";
@@ -51,7 +50,6 @@ package im.siver.logger.controllers {
         private static var _helpMenu:NativeMenuItem;
 
         private static var _exportClientSWC:NativeMenuItem;
-        private static var _exportClientMobileSWC:NativeMenuItem;
         private static var _closeTabItem:NativeMenuItem;
         private static var _closeWindowItem:NativeMenuItem;
 
@@ -225,11 +223,6 @@ package im.siver.logger.controllers {
             _exportClientSWC.data = new Event(EXPORT_CLIENT_SWC);
             _exportClientSWC.addEventListener(Event.SELECT, eventHandler);
             menuFile.addItem(_exportClientSWC);
-
-            _exportClientMobileSWC = new NativeMenuItem("Export Mobile SWC");
-            _exportClientMobileSWC.data = new Event(EXPORT_CLIENT_MOBILE_SWC);
-            _exportClientMobileSWC.addEventListener(Event.SELECT, eventHandler);
-            menuFile.addItem(_exportClientMobileSWC);
 
             menuFile.addItem(new NativeMenuItem("", true));
 

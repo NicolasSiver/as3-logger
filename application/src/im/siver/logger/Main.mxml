@@ -69,7 +69,6 @@
             MenuController.addEventListener(MenuController.ALWAYS_ON_TOP, stayOnTop);
             MenuController.addEventListener(MenuController.ABOUT, showAbout);
             MenuController.addEventListener(MenuController.EXPORT_CLIENT_SWC, urlHandler);
-            MenuController.addEventListener(MenuController.EXPORT_CLIENT_MOBILE_SWC, urlHandler);
             MenuController.addEventListener(MenuController.PRODUCT_WEBSITE, urlHandler);
             MenuController.addEventListener(MenuController.ISSUE, urlHandler);
             MenuController.addEventListener(MenuController.AS3_REFERENCE, urlHandler);
@@ -140,20 +139,12 @@
         private function urlHandler(e:Event):void {
             switch (e.type) {
                 case MenuController.EXPORT_CLIENT_SWC:
-                    var originalFile1:File = File.applicationDirectory.resolvePath("export/MonsterDebugger.swc");
-                    var file1:File = File.desktopDirectory.resolvePath("MonsterDebugger.swc");
+                    var originalFile1:File = File.applicationDirectory.resolvePath("export/logger.swc");
+                    var file1:File = File.desktopDirectory.resolvePath("logger.swc");
                     file1.addEventListener(Event.SELECT, function (e:Event):void {
                         originalFile1.copyTo(file1, true);
                     });
-                    file1.browseForSave("Save MonsterDebugger.swc");
-                    break;
-                case MenuController.EXPORT_CLIENT_MOBILE_SWC:
-                    var originalFile2:File = File.applicationDirectory.resolvePath("export/MonsterDebuggerMobile.swc");
-                    var file2:File = File.desktopDirectory.resolvePath("MonsterDebuggerMobile.swc");
-                    file2.addEventListener(Event.SELECT, function (e:Event):void {
-                        originalFile2.copyTo(file2, true);
-                    });
-                    file2.browseForSave("Save MonsterDebugger.swc");
+                    file1.browseForSave("Save logger.swc");
                     break;
                 case MenuController.PRODUCT_WEBSITE:
                     navigateToURL(new URLRequest(Constants.URL_SITE));
