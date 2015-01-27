@@ -60,30 +60,22 @@ package im.siver.logger.controllers {
          * Show a trace in an output window
          */
         private function filterChanged(event:Event):void {
-            _dataFilterd.removeAll();
-
             // Check if a filter term is given
             if (_panel.filter.words.length == 0) {
-                for (var i:int = 0; i < _data.length; i++) {
-                    _dataFilterd.addItem(_data[i]);
-                }
-                return;
-            }
-            for (var n:int = 0; n < _data.length; n++) {
-                if (checkFilter(_data[n])) {
-                    _dataFilterd.addItem(_data[n]);
-                }
+                _dataFilterd.filterFunction = null;
+                _dataFilterd.refresh();
+            } else {
+                _dataFilterd.filterFunction = checkFilter;
+                _dataFilterd.refresh();
             }
         }
 
         private function addItem(item:Object):void {
-            if (_panel.filter.words.length == 0) {
-                _dataFilterd.addItem(item);
-                return;
-            }
-            if (checkFilter(item)) {
-                _dataFilterd.addItem(item);
-            }
+            _dataFilterd.addItem(item);
+        }
+
+        private function simpleFilter(item:Object):Boolean {
+            return false;
         }
 
         /**
