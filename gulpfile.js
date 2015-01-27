@@ -183,7 +183,7 @@ function composeAdt(compiler) {
 function createCompc(compiler, libName, libType) {
     var result = compiler;
 
-    result = addCommand(result, '-compiler.debug=false');
+    result = addCommand(result, '-compiler.debug=true');
     result = addCommand(result, util.format('-output=application/export/%s.swc', libName));
     result = addCommand(result, '-include-sources=client/src');
     result = addCommand(result, '-source-path=client/src');
