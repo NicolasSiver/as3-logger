@@ -131,20 +131,20 @@ package im.siver.logger.controllers {
          * Incomming data from the client
          */
         private function dataHandler(item:ClientData):void {
-            if (item.id == Constants.MONSTER_DEBUGGER_ID) {
+            _traceController.setData(item.data);
+            _monitorController.setData(item.data);
 
-                _traceController.setData(item.data);
-                _monitorController.setData(item.data);
-
-                // In case of a new base, get the previews
-                switch (item.data["command"]) {
-                    case Constants.COMMAND_BASE:
-                    case Constants.COMMAND_INSPECT:
-                        _client.send(Constants.MONSTER_DEBUGGER_ID, {command: Constants.COMMAND_GET_PROPERTIES, target: ""});
-                        _client.send(Constants.MONSTER_DEBUGGER_ID, {command: Constants.COMMAND_GET_FUNCTIONS, target: ""});
-                        _client.send(Constants.MONSTER_DEBUGGER_ID, {command: Constants.COMMAND_GET_PREVIEW, target: ""});
-                        break;
-                }
+            // In case of a new base, get the previews
+            switch (item.data["command"]) {
+                case Constants.COMMAND_BASE:
+                case Constants.COMMAND_INSPECT:
+                    _client.send(Constants.MONSTER_DEBUGGER_ID, {
+                        command: Constants.COMMAND_GET_PROPERTIES,
+                        target:  ""
+                    });
+                    _client.send(Constants.MONSTER_DEBUGGER_ID, {command: Constants.COMMAND_GET_FUNCTIONS, target: ""});
+                    _client.send(Constants.MONSTER_DEBUGGER_ID, {command: Constants.COMMAND_GET_PREVIEW, target: ""});
+                    break;
             }
         }
 

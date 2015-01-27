@@ -2,8 +2,9 @@ package im.siver.logger.models {
 
     public final class Constants {
 
-        // Core app id
+        // Core app ids
         public static const MONSTER_DEBUGGER_ID:String = "com.demonsters.debugger.core";
+        public static const LOGGER_V1_ID:String = "im.siver.logger.v1";
 
         // Paths
         public static const PATH_UPDATE:String = "http://siver.im/apps/air/xml/update.xml";
