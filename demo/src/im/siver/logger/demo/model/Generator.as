@@ -4,6 +4,7 @@
 package im.siver.logger.demo.model {
 
     public interface Generator {
+        function getColor():uint;
         function getText(): String;
     }
 }

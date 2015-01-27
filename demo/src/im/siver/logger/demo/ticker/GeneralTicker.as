@@ -25,7 +25,7 @@ package im.siver.logger.demo.ticker {
         }
 
         private function timerDidTick(e:TimerEvent):void {
-            _trace(this, _generator.getText());
+            _trace(this, _generator.getText(), _generator.getColor());
         }
     }
 }
