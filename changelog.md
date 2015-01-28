@@ -1,4 +1,4 @@
-### Version: 1.0.0, 26.01.2015
+### Version: 1.0.0, 29.01.2015
 
 * Very first release
 * Full compatibility with MonsterDebugger client (temporal)
